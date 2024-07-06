@@ -11,3 +11,18 @@ declare module 'ntc-ts' {
   export function initColors(_colors: COLOR[]): void
   export const ORIGINAL_COLORS: COLOR[]
 }
+// biome-ignore lint/style/noNamespace: <explanation>
+declare namespace Intl {
+  class ListFormat {
+    constructor(
+      locale?: string,
+      options?: {
+        localeMatcher?: 'lookup' | 'best fit'
+        type?: 'conjunction' | 'disjunction' | 'unit'
+        style?: 'long' | 'short' | 'narrow'
+      }
+    )
+
+    public format: (items: string[]) => string
+  }
+}

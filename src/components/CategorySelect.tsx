@@ -4,12 +4,12 @@ import { Box, Button, FormControl, FormLabel, MenuItem, Select, type SelectChang
 import { Emoji } from 'emoji-picker-react'
 import { type CSSProperties, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { CategoryBadge } from '.'
 import { MAX_CATEGORIES_IN_TASK } from '../constants'
 import { UserContext } from '../contexts/UserContext'
 import { ColorPalette } from '../theme/themeConfig'
 import type { Category, UUID } from '../types/user'
 import { getFontColor, showToast } from '../utils'
+import { CategoryBadge } from './CategoryBadge/CategoryBadge'
 
 interface CategorySelectProps {
   selectedCategories: Category[]

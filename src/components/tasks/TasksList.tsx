@@ -15,7 +15,7 @@ import {
 import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, InputAdornment, Tooltip } from '@mui/material'
 import { Emoji, EmojiStyle } from 'emoji-picker-react'
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { CategoryBadge, EditTask, TaskIcon, TaskMenu } from '..'
+import { EditTask, TaskIcon, TaskMenu } from '..'
 import { URL_REGEX } from '../../constants'
 import { TaskContext } from '../../contexts/TaskContext'
 import { UserContext } from '../../contexts/UserContext'
@@ -48,6 +48,7 @@ import {
   TasksContainer,
   TimeLeft
 } from './tasks.styled'
+import { CategoryBadge } from '../CategoryBadge/CategoryBadge'
 
 /**
  * Component to display a list of tasks.

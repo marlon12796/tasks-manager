@@ -3,8 +3,13 @@ import { Info } from '@mui/icons-material'
 import { Box, Button } from '@mui/material'
 import { getFontColor } from '../utils'
 
+interface TaskManagementContainerProps {
+  backgroundClr: string
+  selected: boolean
+}
+
 //TODO: design this better
-export const TaskManagementContainer = styled(Box)<{ backgroundClr: string; selected: boolean }>`
+export const TaskManagementContainer = styled(Box)<TaskManagementContainerProps>`
   display: flex;
   align-items: center;
   justify-content: left;

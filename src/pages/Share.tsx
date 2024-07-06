@@ -3,7 +3,7 @@ import { Alert, AlertTitle, Dialog, DialogActions, DialogContent, DialogTitle, T
 import { Emoji, EmojiStyle } from 'emoji-picker-react'
 import { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { CategoryBadge } from '../components'
+
 import {
   DescriptionLink,
   EmojiContainer,
@@ -23,6 +23,7 @@ import { DialogBtn } from '../styles'
 import type { Task } from '../types/user'
 import { calculateDateDifference, formatDate, getFontColor, showToast, systemInfo } from '../utils'
 import Home from './Home'
+import { CategoryBadge } from '../components/CategoryBadge/CategoryBadge'
 
 //FIXME: make everything type-safe
 const SharePage = () => {

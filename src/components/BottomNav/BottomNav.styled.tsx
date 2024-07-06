@@ -2,8 +2,13 @@ import { AddRounded } from '@mui/icons-material'
 import { Box, BottomNavigation, BottomNavigationAction, css, styled } from '@mui/material'
 import { pulseAnimation, slideInBottom } from '../../styles'
 import { getFontColor } from '../../utils'
+import type { BoxProps } from '@mui/system'
+interface AddIconProps extends BoxProps {
+  clr: string // Definición explícita de la propiedad 'clr'
+  animate?: boolean
+}
 
-export const AddIcon = styled(AddRounded)<{ clr: string; animate: boolean }>`
+export const AddIcon = styled(AddRounded)<AddIconProps>`
   border: 2px solid ${({ clr }) => clr};
   background-color: ${({ theme }) => theme.palette.secondary.main};
   font-size: 38px;
@@ -11,6 +16,7 @@ export const AddIcon = styled(AddRounded)<{ clr: string; animate: boolean }>`
   padding: 6px;
   margin: 14px;
   transition: background 0.3s;
+
   ${({ animate, theme }) =>
     animate &&
     css`

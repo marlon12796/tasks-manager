@@ -4,10 +4,11 @@ import { Emoji } from 'emoji-picker-react'
 import { getColorName } from 'ntc-ts'
 import { useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { CategoryBadge, TopBar } from '../components'
+import { TopBar } from '../components'
 import { UserContext } from '../contexts/UserContext'
 import { PathName } from '../styles'
 import NotFound from './NotFound'
+import { CategoryBadge } from '../components/CategoryBadge/CategoryBadge'
 const TaskDetails = () => {
   const { user } = useContext(UserContext)
   const { tasks, emojisStyle } = user

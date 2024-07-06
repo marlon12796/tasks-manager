@@ -21,9 +21,7 @@ export const createCustomTheme = (primaryColor: string, backgroundColor = '#232e
       error: {
         main: ColorPalette.red
       },
-      // background: {
-      //   paper: mode === "dark" ? ColorPalette.darkMode : ColorPalette.lightMode,
-      // },
+
       mode
     }
   })
