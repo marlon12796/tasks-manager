@@ -20,15 +20,12 @@ export const TaskIcon = ({ scale = 1, color, variant = 'error' }: NotFoundIconPr
   const secondIconClr = getFontColor(color || theme.primary)
 
   const renderIcon = () => {
-    if (variant === 'add') {
-      return AddIcon
-    }
-    if (variant === 'error') {
-      return ErrorIcon
-    }
-    if (variant === 'success') {
-      return SuccessIcon
-    }
+    if (variant === 'add') return AddIcon
+
+    if (variant === 'error') return ErrorIcon
+
+    if (variant === 'success') return SuccessIcon
+
     return null
   }
   const AddIcon = (

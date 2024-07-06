@@ -1,9 +1,7 @@
-import styled from '@emotion/styled'
 import {
   AddRounded,
   CategoryRounded,
   DeleteForeverRounded,
-  FiberManualRecord,
   GetAppRounded,
   InstallDesktopRounded,
   InstallMobileRounded,
@@ -13,27 +11,31 @@ import {
   SettingsRounded,
   TaskAltRounded
 } from '@mui/icons-material'
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  IconButton,
-  MenuItem,
-  SwipeableDrawer,
-  Tooltip
-} from '@mui/material'
+import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip } from '@mui/material'
 import type React from 'react'
 import { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { SettingsDialog } from '.'
-import logo from '../assets/logo256.png'
-import { defaultUser } from '../constants/defaultUser'
-import { UserContext } from '../contexts/UserContext'
-import { DialogBtn, UserAvatar, pulseAnimation, ring } from '../styles'
-import { ColorPalette } from '../theme/themeConfig'
-import { showToast, systemInfo } from '../utils'
+
+import logo from '../../assets/logo256.png'
+import { defaultUser } from '../../constants/defaultUser'
+import { UserContext } from '../../contexts/UserContext'
+import { DialogBtn, UserAvatar } from '../../styles'
+import {
+  ContainerSidebar,
+  LogoContainer,
+  Logo,
+  LogoText,
+  MenuLabel,
+  ProfileMenuItem,
+  ProfileOptionsBottom,
+  PulseMenuLabel,
+  SettingsMenuItem,
+  StyledDivider,
+  StyledMenuItem,
+  StyledSwipeableDrawer
+} from './Sidebar.styled'
+import { showToast, systemInfo } from '../../utils'
+import { SettingsDialog } from '../Settings'
 
 export const ProfileSidebar = () => {
   const { user, setUser } = useContext(UserContext)
@@ -127,7 +129,7 @@ export const ProfileSidebar = () => {
   }
 
   return (
-    <Container>
+    <ContainerSidebar>
       <Tooltip title={<div translate={name ? 'no' : 'yes'}>{name || 'Usuario'}</div>}>
         <IconButton
           aria-label='Barra lateral'
@@ -292,7 +294,7 @@ export const ProfileSidebar = () => {
         </DialogActions>
       </Dialog>
       <SettingsDialog open={openSettings} onClose={() => setOpenSettings(!openSettings)} />
-    </Container>
+    </ContainerSidebar>
   )
 }
 
@@ -313,149 +315,3 @@ const MenuLink = ({ to, children }: { to: string; children: React.ReactNode }) =
     </a>
   )
 }
-
-const Container = styled.div`
-  position: absolute;
-  right: 16vw;
-  top: 14px;
-  z-index: 900;
-  @media (max-width: 1024px) {
-    right: 16px;
-  }
-`
-
-const StyledSwipeableDrawer = styled(SwipeableDrawer)`
-  & .MuiPaper-root {
-    border-radius: 24px 0 0 0;
-    min-width: 300px;
-    box-shadow: none;
-    padding: 4px 12px;
-    color: ${({ theme }) => (theme.darkmode ? ColorPalette.fontLight : '#101727')};
-    z-index: 999;
-
-    @media (min-width: 1920px) {
-      min-width: 310px;
-    }
-
-    @media (max-width: 1024px) {
-      min-width: 270px;
-    }
-
-    @media (max-width: 600px) {
-      min-width: 55vw;
-    }
-  }
-`
-
-const StyledMenuItem = styled(MenuItem)`
-  /* margin: 0px 8px; */
-  padding: 16px 12px;
-  border-radius: 14px;
-  box-shadow: none;
-  font-weight: 500;
-  gap: 6px;
-
-  & svg,
-  .bmc-icon {
-    transition: 0.4s transform;
-  }
-
-  &:hover {
-    & svg[data-testid="GitHubIcon"] {
-      transform: rotateY(${2 * Math.PI}rad);
-    }
-    & svg[data-testid="BugReportRoundedIcon"] {
-      transform: rotate(45deg) scale(0.9) translateY(-20%);
-    }
-    & .bmc-icon {
-      animation: ${ring} 2.5s ease-in alternate;
-    }
-  }
-`
-
-const SettingsMenuItem = styled(StyledMenuItem)`
-  background: ${({ theme }) => (theme.darkmode ? '#1f1f1f' : '#101727')};
-  color: ${ColorPalette.fontLight} !important;
-  margin-top: 8px !important;
-  &:hover {
-    background: ${({ theme }) => (theme.darkmode ? '#1f1f1fb2' : '#101727b2')};
-    & svg[data-testid="SettingsRoundedIcon"] {
-      transform: rotate(180deg);
-    }
-  }
-`
-
-const ProfileMenuItem = styled(StyledMenuItem)`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: ${({ theme }) => (theme.darkmode ? '#1f1f1f' : '#d7d7d7')};
-  &:hover {
-    background: ${({ theme }) => (theme.darkmode ? '#1f1f1fb2' : '#d7d7d7b2')};
-  }
-`
-
-const MenuLabel = styled.span<{ clr?: string }>`
-  margin-left: auto;
-  font-weight: 600;
-  background: ${({ clr, theme }) => `${clr || theme.primary}35`};
-  color: ${({ clr, theme }) => clr || theme.primary};
-  padding: 2px 12px;
-  border-radius: 32px;
-  font-size: 14px;
-`
-
-const StyledDivider = styled(Divider)`
-  margin: 8px 4px;
-`
-
-const PulseMenuLabel = styled(MenuLabel)`
-  animation: ${({ theme }) => pulseAnimation(theme.primary, 6)} 1.2s infinite;
-  padding: 6px;
-  margin-right: 4px;
-`
-
-PulseMenuLabel.defaultProps = {
-  children: (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}
-    >
-      <FiberManualRecord style={{ fontSize: '16px' }} />
-    </div>
-  )
-}
-
-const LogoContainer = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  margin-top: 8px;
-  margin-bottom: 16px;
-  gap: 12px;
-  cursor: pointer;
-`
-
-const Logo = styled.img`
-  width: 52px;
-  height: 52px;
-  margin-left: 12px;
-  border-radius: 14px;
-`
-
-const LogoText = styled.h2`
-  & span {
-    color: ${({ theme }) => theme.primary};
-  }
-`
-
-const ProfileOptionsBottom = styled.div`
-  margin-top: auto;
-  margin-bottom: ${window.matchMedia('(display-mode: standalone)').matches && /Mobi/.test(navigator.userAgent) ? '38px' : '16px'};
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`
