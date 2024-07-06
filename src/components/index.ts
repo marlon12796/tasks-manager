@@ -1,11 +1,21 @@
-export { TasksList } from './tasks/TasksList'
-export { ProfileSidebar } from './Sidebar'
-export { EditTask } from './EditTask'
-export { TopBar } from './TopBar'
-export { CustomEmojiPicker } from './EmojiPicker'
-export { SettingsDialog } from './Settings'
-export { TaskMenu } from './tasks/TaskMenu'
-export { CategorySelect } from './CategorySelect'
-export { ColorPicker } from './ColorPicker'
-export { TaskIcon } from './TaskIcon'
-export { Loading } from './Loading'
+export * from './BottomNav/BottomNav.styled';
+export * from './BottomNav/BottomNav';
+export * from './CategoryBadge/CategoryBadge.styled';
+export * from './CategoryBadge/CategoryBadge';
+export * from './CategorySelect/CategorySelect.styled';
+export * from './CategorySelect/CategorySelect';
+export * from './ColorPicker';
+export * from './EditTask';
+export * from './EmojiPicker';
+export { default as ErrorBoundary } from './ErrorBoundary';
+export * from './Loading';
+export * from './Settings';
+export * from './Sidebar';
+export * from './TaskIcon';
+export * from './Toaster';
+export * from './TopBar/TopBar.styled';
+export * from './TopBar/TopBar';
+export * from './tasks/RenderTaskDescription';
+export * from './tasks/TaskMenu';
+export * from './tasks/TasksList';
+export * from './tasks/tasks.styled';

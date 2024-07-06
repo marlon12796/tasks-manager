@@ -3,6 +3,7 @@ import { DataObjectRounded } from '@mui/icons-material'
 import { type Theme, ThemeProvider } from '@mui/material'
 import { useCallback, useContext, useEffect } from 'react'
 import ErrorBoundary from './components/ErrorBoundary'
+
 import { CustomToaster } from './components/Toaster'
 import { defaultUser } from './constants/defaultUser'
 import { UserContext } from './contexts/UserContext'

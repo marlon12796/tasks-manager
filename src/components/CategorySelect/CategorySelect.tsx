@@ -1,15 +1,15 @@
-import styled from '@emotion/styled'
 import { ExpandMoreRounded, RadioButtonChecked } from '@mui/icons-material'
-import { Box, Button, FormControl, FormLabel, MenuItem, Select, type SelectChangeEvent } from '@mui/material'
+import { Box, Button, FormControl, FormLabel, type SelectChangeEvent } from '@mui/material'
 import { Emoji } from 'emoji-picker-react'
 import { type CSSProperties, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { MAX_CATEGORIES_IN_TASK } from '../constants'
-import { UserContext } from '../contexts/UserContext'
-import { ColorPalette } from '../theme/themeConfig'
-import type { Category, UUID } from '../types/user'
-import { getFontColor, showToast } from '../utils'
-import { CategoryBadge } from './CategoryBadge/CategoryBadge'
+import { StyledSelect, CategoriesMenu, HeaderMenuItem, NoCategories, SelectedNames } from './CategorySelect.styled'
+import { Category, UUID } from '../../types/user'
+import { UserContext } from '../../contexts/UserContext'
+import { MAX_CATEGORIES_IN_TASK } from '../../constants'
+import { ColorPalette } from '../../theme/themeConfig'
+import { showToast } from '../../utils'
+import { CategoryBadge } from '../CategoryBadge/CategoryBadge'
 
 interface CategorySelectProps {
   selectedCategories: Category[]
@@ -94,7 +94,7 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({ selectedCategori
         <HeaderMenuItem disabled>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
             <b>
-              Select Categories{' '}
+              Selecciona Categorias{' '}
               <span
                 style={{
                   transition: '.3s color',
@@ -134,7 +134,7 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({ selectedCategori
           ))
         ) : (
           <NoCategories disableTouchRipple>
-            <p>You don't have any categories</p>
+            <p>No tienes ninguna categoria</p>
             <Button
               fullWidth
               variant='outlined'
@@ -150,88 +150,3 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({ selectedCategori
     </FormControl>
   )
 }
-
-const StyledSelect = styled(Select)<{ width?: CSSProperties['width'] }>`
-  margin: 12px 0;
-  border-radius: 16px !important;
-  transition: 0.3s all;
-  width: ${({ width }) => width || '100%'};
-  color: white;
-  background: #ffffff18;
-  z-index: 999;
-`
-
-const CategoriesMenu = styled(MenuItem)<{ clr: string; disable?: boolean }>`
-  padding: 12px 16px;
-  border-radius: 16px;
-  margin: 8px;
-  display: flex;
-  gap: 4px;
-  font-weight: 600;
-  transition: 0.2s all;
-  color: ${(props) => getFontColor(props.clr || ColorPalette.fontLight)};
-  background: ${({ clr }) => clr};
-  opacity: ${({ disable }) => (disable ? '.6' : 'none')};
-  &:hover {
-    background: ${({ clr }) => clr};
-    opacity: ${({ disable }) => (disable ? 'none' : '.8')};
-  }
-
-  &:focus {
-    opacity: none;
-  }
-
-  &:focus-visible {
-    border-color: ${({ theme }) => theme.primary} !important;
-  }
-
-  &.Mui-selected {
-    background: ${({ clr }) => clr};
-    color: ${(props) => getFontColor(props.clr || ColorPalette.fontLight)};
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    font-weight: 800;
-    &:hover {
-      background: ${({ clr }) => clr};
-      opacity: 0.7;
-    }
-  }
-`
-
-const HeaderMenuItem = styled(MenuItem)`
-  opacity: 1 !important;
-  font-weight: 500;
-  position: sticky !important;
-  top: 0;
-  backdrop-filter: blur(6px);
-  z-index: 99;
-  pointer-events: none;
-  background: ${({ theme }) => (theme.darkmode ? '#2f2f2fc3' : '#ffffffc3')};
-`
-
-const SelectedNames = styled.span`
-  opacity: 0.9;
-  font-size: 15px;
-  word-break: break-all;
-  max-width: 300px;
-`
-
-const NoCategories = styled(MenuItem)`
-  opacity: 1 !important;
-  font-size: 16px;
-  font-weight: 600;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  margin: 12px 0;
-  gap: 6px;
-  cursor: default !important;
-  & p {
-    margin: 20px 0 32px 0;
-  }
-  &:hover {
-    background: transparent !important;
-  }
-`
