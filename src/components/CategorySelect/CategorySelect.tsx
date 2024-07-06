@@ -26,23 +26,94 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({ selectedCategori
   const { categories, emojisStyle } = user
   const [selectedCats, setSelectedCats] = useState<Category[]>(selectedCategories)
   const [isOpen, setIsOpen] = useState<boolean>(false)
-
-  const n = useNavigate()
+  const navigate = useNavigate()
 
   const handleCategoryChange = (event: SelectChangeEvent<unknown>): void => {
     const selectedCategoryIds = event.target.value as UUID[]
     if (selectedCategoryIds.length > MAX_CATEGORIES_IN_TASK) {
-      showToast(`No puedes añadir mas de ${MAX_CATEGORIES_IN_TASK} categorias`, {
+      showToast(`No puedes añadir más de ${MAX_CATEGORIES_IN_TASK} categorías`, {
         type: 'error',
         position: 'top-center'
       })
-
       return
     }
     const selectedCategories = categories.filter((cat) => selectedCategoryIds.includes(cat.id))
     setSelectedCats(selectedCategories)
     onCategoryChange?.(selectedCategories)
   }
+
+  const renderValue = () => (
+    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '4px 8px' }}>
+      {selectedCats.map((category) => (
+        <CategoryBadge key={category.id} category={category} sx={{ cursor: 'pointer' }} glow={false} />
+      ))}
+    </Box>
+  )
+
+  const renderIconComponent = () => (
+    <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => setIsOpen((prev) => !prev)}>
+      <ExpandMoreRounded
+        sx={{
+          marginRight: '14px',
+          color: fontColor || ColorPalette.fontLight,
+          transform: isOpen ? 'rotate(180deg)' : 'none'
+        }}
+      />
+    </Box>
+  )
+
+  const renderHeaderMenuItem = () => (
+    <HeaderMenuItem disabled>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+        <b>
+          Selecciona Categorías{' '}
+          <span
+            style={{
+              transition: '.3s color',
+              color: selectedCats.length >= MAX_CATEGORIES_IN_TASK ? '#f34141' : 'currentcolor'
+            }}
+          >
+            {categories.length > 3 && <span>(max {MAX_CATEGORIES_IN_TASK})</span>}
+          </span>
+        </b>
+        {selectedCats.length > 0 && (
+          <SelectedNames>
+            Seleccionadas{' '}
+            {selectedCats.length > 0 &&
+              new Intl.ListFormat('es', {
+                style: 'long',
+                type: 'conjunction'
+              }).format(selectedCats.map((category) => category.name))}
+          </SelectedNames>
+        )}
+      </div>
+    </HeaderMenuItem>
+  )
+
+  const renderCategories = () =>
+    categories && categories.length > 0 ? (
+      categories.map((category) => (
+        <CategoriesMenu
+          key={category.id}
+          value={category.id}
+          clr={category.color}
+          translate='no'
+          disable={selectedCats.length >= MAX_CATEGORIES_IN_TASK && !selectedCats.some((cat) => cat.id === category.id)}
+        >
+          {selectedCats.some((cat) => cat.id === category.id) && <RadioButtonChecked />}
+          {category.emoji && <Emoji unified={category.emoji} emojiStyle={emojisStyle} />}
+          &nbsp;
+          {category.name}
+        </CategoriesMenu>
+      ))
+    ) : (
+      <NoCategories disableTouchRipple>
+        <p>No tienes ninguna categoría</p>
+        <Button fullWidth variant='outlined' onClick={() => navigate('/categories')}>
+          Añadir categoría
+        </Button>
+      </NoCategories>
+    )
 
   return (
     <FormControl sx={{ width: width || '100%' }}>
@@ -53,7 +124,7 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({ selectedCategori
           fontWeight: 500
         }}
       >
-        Category
+        Categoría
       </FormLabel>
       <StyledSelect
         multiple
@@ -63,24 +134,8 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({ selectedCategori
         open={isOpen}
         onOpen={() => setIsOpen(true)}
         onClose={() => setIsOpen(false)}
-        IconComponent={() => (
-          <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => setIsOpen((prev) => !prev)}>
-            <ExpandMoreRounded
-              sx={{
-                marginRight: '14px',
-                color: fontColor || ColorPalette.fontLight,
-                transform: isOpen ? 'rotate(180deg)' : 'none'
-              }}
-            />
-          </Box>
-        )}
-        renderValue={() => (
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '4px 8px' }}>
-            {selectedCats.map((category) => (
-              <CategoryBadge key={category.id} category={category} sx={{ cursor: 'pointer' }} glow={false} />
-            ))}
-          </Box>
-        )}
+        IconComponent={renderIconComponent}
+        renderValue={renderValue}
         MenuProps={{
           PaperProps: {
             style: {
@@ -91,61 +146,8 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({ selectedCategori
           }
         }}
       >
-        <HeaderMenuItem disabled>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-            <b>
-              Selecciona Categorias{' '}
-              <span
-                style={{
-                  transition: '.3s color',
-                  color: selectedCats.length >= MAX_CATEGORIES_IN_TASK ? '#f34141' : 'currentcolor'
-                }}
-              >
-                {categories.length > 3 && <span>(max {MAX_CATEGORIES_IN_TASK})</span>}
-              </span>
-            </b>
-            {selectedCats.length > 0 && (
-              <SelectedNames>
-                Selected{' '}
-                {selectedCats.length > 0 &&
-                  new Intl.ListFormat('en', {
-                    style: 'long',
-                    type: 'conjunction'
-                  }).format(selectedCats.map((category) => category.name))}
-              </SelectedNames>
-            )}
-          </div>
-        </HeaderMenuItem>
-
-        {categories && categories.length > 0 ? (
-          categories.map((category) => (
-            <CategoriesMenu
-              key={category.id}
-              value={category.id}
-              clr={category.color}
-              translate='no'
-              disable={selectedCats.length >= MAX_CATEGORIES_IN_TASK && !selectedCats.some((cat) => cat.id === category.id)}
-            >
-              {selectedCats.some((cat) => cat.id === category.id) && <RadioButtonChecked />}
-              {category.emoji && <Emoji unified={category.emoji} emojiStyle={emojisStyle} />}
-              &nbsp;
-              {category.name}
-            </CategoriesMenu>
-          ))
-        ) : (
-          <NoCategories disableTouchRipple>
-            <p>No tienes ninguna categoria</p>
-            <Button
-              fullWidth
-              variant='outlined'
-              onClick={() => {
-                n('/categories')
-              }}
-            >
-              Add Category
-            </Button>
-          </NoCategories>
-        )}
+        {renderHeaderMenuItem()}
+        {renderCategories()}
       </StyledSelect>
     </FormControl>
   )

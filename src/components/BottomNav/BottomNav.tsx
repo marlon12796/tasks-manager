@@ -10,49 +10,25 @@ export const BottomNav = (): JSX.Element | null => {
   const { user } = useContext(UserContext)
   const { tasks, settings } = user
   const [value, setValue] = useState<number | undefined>()
-
   const theme = useTheme()
   const n = useNavigate()
   const isMobile = useResponsiveDisplay()
   const location = useLocation()
-
   const smallIconSize = '29px'
 
-  // useEffect hook to set the active button based on the current route
   useEffect(() => {
-    const pathParts = location.pathname.split('/') // Split the pathname by '/'
-    if (pathParts[1] === 'task') {
-      setValue(0) // If the user is on a task page, set the value to 0
-    } else {
-      // Handle other routes as before
-      switch (location.pathname) {
-        case '/categories':
-          setValue(1)
-          break
-        case '/add':
-          setValue(2)
-          break
-        case '/transfer':
-          setValue(3)
-          break
-        case '/user':
-          setValue(4)
-          break
-        case '/':
-          setValue(0)
-          break
-        default:
-          setValue(undefined) // Fallback for the undefined route
-      }
+    const pathToValue: { [key: string]: number } = {
+      '/': 0,
+      '/categories': 1,
+      '/add': 2,
+      '/transfer': 3,
+      '/user': 4
     }
+    const pathParts = location.pathname.split('/')
+    pathParts[1] === 'task' ? setValue(0) : setValue(pathToValue[location.pathname])
   }, [location.pathname])
 
-  // If it's a mobile device, don't render the navigation bar.
-  if (!isMobile) {
-    return null
-  }
-
-  return (
+  return isMobile ? (
     <Container>
       <StyledBottomNavigation
         showLabels
@@ -95,5 +71,7 @@ export const BottomNav = (): JSX.Element | null => {
         <NavigationButton onClick={() => n('user')} label='Profile' icon={<PersonRounded sx={{ fontSize: smallIconSize }} />} />
       </StyledBottomNavigation>
     </Container>
+  ) : (
+    <></>
   )
 }
