@@ -22,7 +22,7 @@ export const EditTask = ({ open, task, onClose, onSave }: EditTaskProps) => {
   const { user } = useContext(UserContext)
   const { settings } = user
   const [editedTask, setEditedTask] = useState<Task | undefined>(task)
-  const [emoji, setEmoji] = useState<string | undefined>()
+  const [emoji, setEmoji] = useState<string | null>(null)
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([])
 
   const theme = useTheme()
@@ -38,12 +38,15 @@ export const EditTask = ({ open, task, onClose, onSave }: EditTaskProps) => {
 
   // const isMobile = useResponsiveDisplay(600);
 
-  // Effect hook to update the editedTask with the selected emoji.
   useEffect(() => {
-    setEditedTask((prevTask) => ({
-      ...(prevTask as Task),
-      emoji: emoji
-    }))
+    setEditedTask((prevTask) => {
+      if (!prevTask) return prevTask
+
+      return {
+        ...prevTask,
+        emoji: emoji as string // Assert emoji as string type if you are sure it's never null
+      }
+    })
   }, [emoji])
 
   // Effect hook to update the editedTask when the task prop changes.

@@ -59,9 +59,7 @@ export const CustomEmojiPicker = ({ emoji, setEmoji, color, width, name }: Emoji
 
   // Cuando la propiedad emoji cambia a una cadena vacía, establece el estado currentEmoji a null
   useEffect(() => {
-    if (emoji === '') {
-      setCurrentEmoji(null)
-    }
+    if (emoji === '') setCurrentEmoji(null)
   }, [emoji])
 
   // Función para alternar la visibilidad del EmojiPicker

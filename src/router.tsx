@@ -1,5 +1,5 @@
-import { type ReactElement, Suspense, lazy } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Suspense, lazy } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Loading } from './components'
 
 const Home = lazy(() => import('./pages/Home'))
@@ -12,7 +12,7 @@ const Categories = lazy(() => import('./pages/Categories'))
 const Purge = lazy(() => import('./pages/Purge'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
-const AppRouter = (): ReactElement => {
+const AppRouter = () => {
   return (
     <Suspense fallback={<Loading />}>
       <Routes>
@@ -24,7 +24,6 @@ const AppRouter = (): ReactElement => {
         <Route path='/transfer' element={<ImportExport />} />
         <Route path='/categories' element={<Categories />} />
         <Route path='/purge' element={<Purge />} />
-        <Route path='/loading' element={<Loading />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </Suspense>

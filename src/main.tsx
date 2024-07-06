@@ -5,7 +5,6 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App.tsx'
 import { UserContextProvider } from './contexts/UserProvider.tsx'
 
-// initialize ntc colors
 initColors(ORIGINAL_COLORS)
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

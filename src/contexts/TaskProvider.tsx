@@ -27,20 +27,17 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
   const handleSelectTask = (taskId: UUID) => {
     setAnchorEl(null)
     setMultipleSelectedTasks((prevSelectedTaskIds) => {
-      if (prevSelectedTaskIds.includes(taskId)) {
+      if (prevSelectedTaskIds.includes(taskId))
         // Deselect the task if already selected
         return prevSelectedTaskIds.filter((id) => id !== taskId)
-      } else {
-        // Select the task if not selected
-        return [...prevSelectedTaskIds, taskId]
-      }
+
+      // Select the task if not selected
+      return [...prevSelectedTaskIds, taskId]
     })
   }
 
   const highlightMatchingText = (text: string): ReactNode => {
-    if (!search) {
-      return text
-    }
+    if (!search) return text
 
     const parts = text.split(new RegExp(`(${search})`, 'gi'))
     return parts.map((part, index) =>
