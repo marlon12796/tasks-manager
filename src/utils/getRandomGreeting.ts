@@ -6,34 +6,34 @@ export const getRandomGreeting = (): string => {
   const hoursLeft = 24 - new Date().getHours()
 
   const greetingsText: string[] = [
-    '¡Vamos a hacer que hoy cuente! **1f680**',
-    '¡Haz las cosas y conquista el día!',
-    '¡Aprovecha el poder de la productividad!',
-    'Establece tus metas, aplástalas, repite.',
-    '¡Hoy es una nueva oportunidad para ser productivo!',
-    'Haz que cada momento cuente.',
-    'Mantente organizado, mantente adelante.',
-    '¡Toma el control de tu día!',
-    'Una tarea a la vez, ¡tú puedes!',
-    'La productividad es la clave del éxito. **1f511**',
-    '¡Convirtamos los planes en logros!',
-    'Empieza pequeño, logra grande.',
-    'Sé eficiente, sé productivo.',
-    '¡Aprovecha el poder de la productividad!',
-    '¡Prepárate para hacer que las cosas sucedan!',
-    '¡Es hora de marcar esas tareas como completadas! **2705**',
-    '¡Comienza tu día con un plan! **1f5d3-fe0f**',
-    'Mantén el enfoque, mantén la productividad.',
-    'Desbloquea tu potencial de productividad. **1f513**',
-    '¡Convierte tu lista de pendientes en una lista de hechos! **1f4dd**',
+    '¡Haz que cada día cuente! 💪',
+    '¡La disciplina es el puente entre metas y logros!',
+    '¡Tú eres más fuerte de lo que crees!',
+    'No te conformes con menos de lo que mereces.',
+    '¡Cada pequeño paso te acerca más a tu gran objetivo!',
+    'Mantén el enfoque en lo que realmente importa.',
+    '¡La perseverancia es la clave del éxito!',
+    'No dejes para mañana lo que puedes hacer hoy.',
+    '¡Celebra cada pequeño avance en tu camino!',
+    '¡La mejor manera de predecir el futuro es crearlo!',
+    'Haz lo que amas y ama lo que haces.',
+    '¡Nunca subestimes el poder de tus sueños!',
+    'Cada nuevo día es una oportunidad para aprender y crecer.',
+    '¡Convierte tus obstáculos en oportunidades!',
+    '¡La clave está en ser constante y paciente!',
+    'Mantén tus sueños grandes y tus preocupaciones pequeñas.',
+    '¡Aprende del pasado, vive el presente, crea el futuro!',
+    '¡Confía en ti mismo y alcanzarás cualquier meta!',
+    '¡La actitud lo es todo!',
+    '¡Hoy es un buen día para empezar algo nuevo!',
 
     `¡Que tengas un maravilloso ${new Date().toLocaleDateString('es', {
       weekday: 'long'
     })}!`,
     `¡Feliz ${new Date().toLocaleDateString('es', {
       month: 'long'
-    })}! ¡Un gran mes para la productividad!`,
-    hoursLeft > 4 ? `¡Quedan ${hoursLeft} horas en el día. ¡Úsalas sabiamente!` : `Solo quedan ${hoursLeft} horas en el día`
+    })}! ¡Un mes excelente para ser productivo!`,
+    hoursLeft > 4 ? `¡Quedan ${hoursLeft} horas en el día! ¡Úsalas sabiamente!` : `Solo quedan ${hoursLeft} horas en el día.`
   ]
 
   const randomIndex = Math.floor(Math.random() * greetingsText.length)

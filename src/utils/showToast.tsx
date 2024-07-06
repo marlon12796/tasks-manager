@@ -17,7 +17,6 @@ interface ToastProps extends ToastOptions {
  * @param toastOptions - Additional options to configure the toast notification.
  * @returns {void}
  */
-
 export const showToast = (
   message: string | ReactNode,
   { type, disableClickDismiss, disableVibrate, dismissButton, ...toastOptions }: ToastProps = {} as ToastProps
@@ -57,15 +56,31 @@ export const showToast = (
       ...toastOptions // Passes any additional toast options.
     }
   )
-
-  const DismissButton = styled(Button)`
-    width: 100%;
-    padding: 12px 24px;
-    border-radius: 16px;
-    margin-top: 8px;
-    font-size: 16px;
-  `
-  DismissButton.defaultProps = {
-    variant: 'outlined'
-  }
 }
+
+const DismissButton = styled(Button)<{ variant?: 'text' | 'outlined' | 'contained' }>`
+  width: 100%;
+  padding: 12px 24px;
+  border-radius: 16px;
+  margin-top: 8px;
+  font-size: 16px;
+  ${({ variant }) => {
+    switch (variant) {
+      case 'outlined':
+        return `
+          color: black;
+          border: 2px solid black;
+        `
+      case 'contained':
+        return `
+          color: white;
+          background-color: black;
+        `
+      case 'text':
+      default:
+        return `
+          color: black;
+        `
+    }
+  }}
+`
