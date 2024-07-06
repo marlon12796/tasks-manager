@@ -15,18 +15,17 @@ export const calculateDateDifference = (date: Date, lang: string = navigator.lan
   const differenceMinutes = Math.floor(difference / (1000 * 60))
   const userLocale = lang
 
-  if (targetDate < currentDate) {
-    return `No completado a tiempo (${timeAgo(targetDate, userLocale)})`
-  }
-  if (targetDate.toDateString() === currentDate.toDateString()) {
+  if (targetDate < currentDate) return `No completado a tiempo (${timeAgo(targetDate, userLocale)})`
+
+  if (targetDate.toDateString() === currentDate.toDateString())
     return new Intl.RelativeTimeFormat(userLocale, { numeric: 'auto' }).format(
       differenceHours > 0 ? differenceHours : differenceMinutes,
       differenceHours > 0 ? 'hour' : 'minute'
     )
-  }
-  if (targetDate.getDate() === currentDate.getDate() + 1) {
+
+  if (targetDate.getDate() === currentDate.getDate() + 1)
     return new Intl.RelativeTimeFormat(userLocale, { numeric: 'auto' }).format(1, 'day')
-  }
+
   if (differenceDays <= 7) {
     const dayOfWeek = new Intl.DateTimeFormat(userLocale, {
       weekday: 'long'

@@ -61,6 +61,7 @@
       "style": {
         "noNamespace": "error",
         "useConsistentArrayType": "error",
+        "noUselessElse": "error",
         "useLiteralEnumMembers": "error",
         "useSelfClosingElements": "error",
         "useAsConstAssertion": "error"
@@ -237,7 +238,12 @@
   },
   "overrides": [
     {
-      "include": ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"],
+      "include": [
+        "**/*.ts",
+        "**/*.tsx",
+        "**/*.mts",
+        "**/*.cts"
+      ],
       "linter": {
         "rules": {
           "correctness": {
