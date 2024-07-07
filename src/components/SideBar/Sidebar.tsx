@@ -3,8 +3,6 @@ import {
   CategoryRounded,
   DeleteForeverRounded,
   GetAppRounded,
-  InstallDesktopRounded,
-  InstallMobileRounded,
   IosShareRounded,
   Logout,
   PhoneIphoneRounded,
@@ -13,8 +11,8 @@ import {
 } from '@mui/icons-material'
 import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip } from '@mui/material'
 import type React from 'react'
-import { useContext, useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import logo from '../../assets/logo256.png'
 import { defaultUser } from '../../constants/defaultUser'
@@ -36,6 +34,7 @@ import {
 } from './Sidebar.styled'
 import { showToast, systemInfo } from '../../utils'
 import { SettingsDialog } from '../Settings'
+import { MenuLink } from './MenuLink'
 
 export const ProfileSidebar = () => {
   const { user, setUser } = useContext(UserContext)
@@ -66,66 +65,6 @@ export const ProfileSidebar = () => {
     setUser(defaultUser)
     handleLogoutConfirmationClose()
     showToast('Has cerrado sesión exitosamente')
-  }
-
-  interface BeforeInstallPromptEvent extends Event {
-    readonly platforms: readonly string[]
-    readonly userChoice: Promise<{
-      outcome: 'accepted' | 'dismissed'
-      platform: string
-    }>
-    prompt(): Promise<void>
-  }
-
-  const [supportsPWA, setSupportsPWA] = useState<boolean>(false)
-  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null)
-  const [isAppInstalled, setIsAppInstalled] = useState<boolean>(false)
-
-  useEffect(() => {
-    const beforeInstallPromptHandler = (e: Event) => {
-      e.preventDefault()
-      setSupportsPWA(true)
-      setDeferredPrompt(e as BeforeInstallPromptEvent)
-    }
-
-    const detectAppInstallation = () => {
-      window.matchMedia('(display-mode: standalone)').addEventListener('change', (e) => {
-        setIsAppInstalled(e.matches)
-      })
-    }
-
-    window.addEventListener('beforeinstallprompt', beforeInstallPromptHandler)
-    detectAppInstallation()
-
-    return () => {
-      window.removeEventListener('beforeinstallprompt', beforeInstallPromptHandler)
-    }
-  }, [])
-
-  const installPWA = () => {
-    if (deferredPrompt) {
-      deferredPrompt.prompt()
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          showToast('¡Aplicación instalada exitosamente!')
-          if ('setAppBadge' in navigator) {
-            setUser((prevUser) => ({
-              ...prevUser,
-              settings: [
-                {
-                  ...prevUser.settings[0],
-                  appBadge: true
-                }
-              ]
-            }))
-          }
-          handleClose()
-        }
-        if (choiceResult.outcome === 'dismissed') {
-          showToast('Instalación cancelada.', { type: 'error' })
-        }
-      })
-    }
   }
 
   return (
@@ -223,13 +162,6 @@ export const ProfileSidebar = () => {
 
         <StyledDivider />
 
-        {supportsPWA && !isAppInstalled && (
-          <StyledMenuItem onClick={installPWA}>
-            {systemInfo.os === 'Android' ? <InstallMobileRounded /> : <InstallDesktopRounded />}
-            &nbsp; Instalar App
-          </StyledMenuItem>
-        )}
-
         {systemInfo.browser === 'Safari' &&
           systemInfo.os === 'iOS' &&
           !window.matchMedia('(display-mode: standalone)').matches && (
@@ -295,19 +227,5 @@ export const ProfileSidebar = () => {
       </Dialog>
       <SettingsDialog open={openSettings} onClose={() => setOpenSettings(!openSettings)} />
     </ContainerSidebar>
-  )
-}
-
-const MenuLink = ({ to, children }: { to: string; children: React.ReactNode }) => {
-  const styles: React.CSSProperties = { borderRadius: '14px' }
-
-  return to.startsWith('/') ? (
-    <Link to={to} style={styles}>
-      {children}
-    </Link>
-  ) : (
-    <a href={to} target='_blank' style={styles} rel='noreferrer'>
-      {children}
-    </a>
   )
 }

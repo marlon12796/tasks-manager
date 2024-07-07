@@ -32,7 +32,7 @@ export const BottomNav = (): JSX.Element | null => {
     <Container>
       <StyledBottomNavigation
         showLabels
-        glow={settings[0].enableGlow}
+        glow={settings[0].enableGlow ? 'true' : 'false'}
         value={value}
         onChange={(_event, newValue: number) => {
           window.scrollTo({
@@ -61,7 +61,13 @@ export const BottomNav = (): JSX.Element | null => {
           onClick={() => n('add')}
           showLabel={false}
           aria-label='Add'
-          icon={<AddIcon clr={theme.palette.primary.main} fontSize='large' animate={tasks.length === 0 && value !== 2} />}
+          icon={
+            <AddIcon
+              clr={theme.palette.primary.main}
+              fontSize='large'
+              animate={tasks.length === 0 && value !== 2 ? 'true' : 'false'}
+            />
+          }
         />
         <NavigationButton
           onClick={() => n('transfer')}

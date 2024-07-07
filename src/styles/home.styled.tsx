@@ -1,4 +1,3 @@
-
 import styled from '@emotion/styled'
 import { Box, Button, CircularProgress, css } from '@mui/material'
 import { ColorPalette } from '../theme/themeConfig'
@@ -109,7 +108,7 @@ export const StyledProgress = styled(CircularProgress)<{ glow: boolean }>`
   transition: 0.3s filter;
 `
 
-export const AddButton = styled(Button)<{ animate?: boolean; glow: boolean }>`
+export const AddButton = styled(Button)<{ animate: 'true' | 'false'; glow: 'true' | 'false' }>`
   cursor: pointer;
   border: none;
   display: flex;
@@ -123,7 +122,7 @@ export const AddButton = styled(Button)<{ animate?: boolean; glow: boolean }>`
   background-color: ${({ theme }) => theme.primary};
   color: ${({ theme }) => getFontColor(theme.primary)};
   right: 16vw;
-  box-shadow: ${({ glow, theme }) => (glow ? `0px 0px 32px -8px ${theme}` : 'none')};
+  box-shadow: ${({ glow, theme }) => (glow === 'true' ? `0px 0px 32px -8px ${theme}` : 'none')};
   transition: background-color 0.3s, backdrop-filter 0.3s, box-shadow 0.3s;
 
   &:hover {
@@ -133,7 +132,7 @@ export const AddButton = styled(Button)<{ animate?: boolean; glow: boolean }>`
   }
 
   ${({ animate, theme }) =>
-    animate &&
+    animate === 'true' &&
     css`
       animation: ${pulseAnimation(theme.primary, 14)} 1.2s infinite;
     `}

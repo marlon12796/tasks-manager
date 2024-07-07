@@ -175,8 +175,8 @@ const Home = () => {
       {!isMobile && (
         <Tooltip title={tasks.length > 0 ? 'Agregar nueva tarea' : 'Agregar tarea'} placement='left'>
           <AddButton
-            animate={tasks.length === 0}
-            glow={settings[0].enableGlow}
+            animate={tasks.length === 0 ? 'true' : 'false'}
+            glow={settings[0].enableGlow ? 'true' : 'false'}
             onClick={() => n('add')}
             aria-label='Agregar Tarea'
           >

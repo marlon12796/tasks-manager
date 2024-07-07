@@ -1,19 +1,28 @@
-import styled from '@emotion/styled'
 import {
   DataObjectRounded,
   DeleteForeverRounded,
   DescriptionRounded,
   ErrorOutlineRounded,
-  ExpandMoreRounded,
   FileDownload,
   RefreshRounded
 } from '@mui/icons-material'
-import { Accordion, AccordionDetails, AccordionSummary, Alert, Button, Typography } from '@mui/material'
-import { Emoji } from 'emoji-picker-react'
+import { AccordionDetails, AccordionSummary, Alert, Button, Typography } from '@mui/material'
+
 import React, { type ErrorInfo } from 'react'
-import { TaskIcon } from '.'
-import { UserContext } from '../contexts/UserContext'
-import { exportTasksToJson, getFontColor, showToast } from '../utils'
+
+import { UserContext } from '../../contexts/UserContext'
+import { exportTasksToJson, showToast } from '../../utils'
+import {
+  ContainerBoundary,
+  ErrorAccordion,
+  ErrorExpandIcon,
+  ErrorHeader,
+  ErrorIconContainer,
+  StyledButton,
+  UserDataLabel
+} from './ErrorBoundary.selected'
+import { Emoji } from 'emoji-picker-react'
+import { TaskIcon } from '../TaskIcon'
 
 interface ErrorBoundaryProps {
   children: React.ReactNode
@@ -61,7 +70,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
       const { tasks } = user
 
       return (
-        <Container>
+        <ContainerBoundary>
           <ErrorHeader>
             <span>¡Vaya! Ocurrió un error.&nbsp;</span>
             <span>
@@ -125,79 +134,12 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
             <br />
             <code translate='no'>{JSON.stringify(user, null, 4)}</code>
           </pre>
-        </Container>
+        </ContainerBoundary>
       )
     }
 
     return this.props.children
   }
 }
-
-const Container = styled.div`
-  margin: 0 8vw;
-  @media (max-width: 768px) {
-    margin: 0;
-  }
-`
-
-const ErrorIconContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 8px;
-`
-
-const ErrorHeader = styled.h1`
-  margin-top: 32px;
-  margin-bottom: 32px;
-  font-size: 36px;
-  color: #ff3131;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  @media (max-width: 768px) {
-    text-align: left;
-    justify-content: left;
-    font-size: 30px;
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-`
-
-const ErrorAccordion = styled(Accordion)`
-  color: ${({ theme }) => getFontColor(theme.secondary)};
-  border-radius: 14px !important;
-  background: ${({ theme }) => getFontColor(theme.secondary)}18;
-  box-shadow: none;
-  padding: 4px;
-  margin-bottom: 18px;
-`
-
-const ErrorExpandIcon = styled(ExpandMoreRounded)`
-  color: ${({ theme }) => getFontColor(theme.secondary)};
-  font-size: 32px;
-`
-
-const StyledButton = styled(Button)`
-  padding: 10px 30px;
-  border-radius: 12px;
-  @media (max-width: 768px) {
-    width: 100%;
-  }
-`
-StyledButton.defaultProps = {
-  variant: 'outlined',
-  size: 'large'
-}
-
-const UserDataLabel = styled.p`
-  font-size: 18px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 8px 0;
-`
 
 export default ErrorBoundary

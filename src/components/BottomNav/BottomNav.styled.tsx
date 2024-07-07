@@ -5,7 +5,7 @@ import { getFontColor } from '../../utils'
 import type { BoxProps } from '@mui/system'
 interface AddIconProps extends BoxProps {
   clr: string // Definición explícita de la propiedad 'clr'
-  animate?: boolean
+  animate: string
 }
 
 export const AddIcon = styled(AddRounded)<AddIconProps>`
@@ -33,9 +33,9 @@ export const Container = styled(Box)`
   z-index: 999;
 `
 
-export const StyledBottomNavigation = styled(BottomNavigation)<{ glow: boolean }>`
+export const StyledBottomNavigation = styled(BottomNavigation)<{ glow: string }>`
   border-radius: 24px 24px 0 0;
-  background: ${({ theme, glow }) => `${theme.palette.secondary.main}${glow ? 'c8' : 'e6'}`};
+  background: ${({ theme, glow }) => `${theme.palette.secondary.main}${glow === 'true' ? 'c8' : 'e6'}`};
   backdrop-filter: blur(20px);
   margin: 0px 20px 0px -20px;
   padding: 18px 10px 32px 10px;

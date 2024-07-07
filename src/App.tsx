@@ -2,7 +2,6 @@ import { ThemeProvider as EmotionTheme } from '@emotion/react'
 import { DataObjectRounded } from '@mui/icons-material'
 import { type Theme, ThemeProvider } from '@mui/material'
 import { useCallback, useContext, useEffect } from 'react'
-import ErrorBoundary from './components/ErrorBoundary'
 
 import { CustomToaster } from './components/Toaster'
 import { defaultUser } from './constants/defaultUser'
@@ -14,6 +13,7 @@ import { GlobalStyles } from './styles'
 import { Themes, createCustomTheme } from './theme/theme'
 import { ColorPalette } from './theme/themeConfig'
 import { getFontColor, showToast } from './utils'
+import { ErrorBoundary } from './components'
 
 function App() {
   const { user, setUser } = useContext(UserContext)
