@@ -1,34 +1,22 @@
 import { useTheme } from '@emotion/react'
-import { Delete, DeleteRounded, Edit, SaveRounded } from '@mui/icons-material'
-import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Tooltip } from '@mui/material'
-import { Emoji } from 'emoji-picker-react'
+import { DeleteRounded, SaveRounded } from '@mui/icons-material'
+import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { lazy, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ColorPicker, CustomEmojiPicker, TopBar } from '../components'
 import { CATEGORY_NAME_MAX_LENGTH } from '../constants'
 import { UserContext } from '../contexts/UserContext'
 import { useStorageState } from '../hooks/useStorageState'
-import {
-  ActionButton,
-  AddCategoryButton,
-  AddContainer,
-  CategoriesContainer,
-  CategoryContent,
-  CategoryElement,
-  CategoryElementsContainer,
-  CategoryInput,
-  DialogBtn,
-  EditNameInput
-} from '../styles'
+import { AddCategoryButton, AddContainer, CategoriesContainer, CategoryInput, DialogBtn, EditNameInput } from '../styles'
 import { ColorPalette } from '../theme/themeConfig'
 import type { Category, UUID } from '../types/user'
 import { getFontColor, showToast } from '../utils'
+import { CategoryElements } from './Categories/CategoryElements'
 
 const NotFound = lazy(() => import('./NotFound'))
 const Categories = () => {
   const { user, setUser } = useContext(UserContext)
   const theme = useTheme()
-
   const [name, setName] = useStorageState<string>('', 'catName', 'sessionStorage')
   const [nameError, setNameError] = useState<string>('')
   const [emoji, setEmoji] = useStorageState<string | null>(null, 'catEmoji', 'sessionStorage')
@@ -47,12 +35,10 @@ const Categories = () => {
 
   useEffect(() => {
     document.title = 'Aplicación de Tareas - Categorías'
-    if (!user.settings[0].enableCategories) {
-      n('/')
-    }
-    if (name.length > CATEGORY_NAME_MAX_LENGTH) {
+    if (!user.settings[0].enableCategories) n('/')
+
+    if (name.length > CATEGORY_NAME_MAX_LENGTH)
       setNameError(`El nombre es demasiado largo, máximo ${CATEGORY_NAME_MAX_LENGTH} caracteres`)
-    }
   }, [n, name.length, user.settings])
 
   useEffect(() => {
@@ -91,28 +77,23 @@ const Categories = () => {
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newName = event.target.value
     setName(newName)
-    if (newName.length > CATEGORY_NAME_MAX_LENGTH) {
-      setNameError(`El nombre es demasiado largo (máximo ${CATEGORY_NAME_MAX_LENGTH} caracteres)`)
-    } else {
-      setNameError('')
-    }
+    newName.length > CATEGORY_NAME_MAX_LENGTH
+      ? setNameError(`El nombre es demasiado largo (máximo ${CATEGORY_NAME_MAX_LENGTH} caracteres)`)
+      : setNameError('')
   }
 
-  const handleEditNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newName = event.target.value
+  const handleEditNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newName = e.target.value
     setEditName(newName)
-    if (newName.length > CATEGORY_NAME_MAX_LENGTH) {
-      setEditNameError(`El nombre es demasiado largo (máximo ${CATEGORY_NAME_MAX_LENGTH} caracteres)`)
-    } else {
-      setEditNameError('')
-    }
+    newName.length > CATEGORY_NAME_MAX_LENGTH
+      ? setEditNameError(`El nombre es demasiado largo (máximo ${CATEGORY_NAME_MAX_LENGTH} caracteres)`)
+      : setEditNameError('')
   }
 
   const handleAddCategory = () => {
     if (name !== '') {
-      if (name.length > CATEGORY_NAME_MAX_LENGTH) {
-        return
-      }
+      if (name.length > CATEGORY_NAME_MAX_LENGTH) return
+
       const newCategory: Category = {
         id: crypto.randomUUID(),
         name,
@@ -163,15 +144,14 @@ const Categories = () => {
 
       const updatedTasks = user.tasks.map((task) => {
         const updatedCategoryList = task.category?.map((category) => {
-          if (category.id === selectedCategoryId) {
-            return {
-              id: selectedCategoryId,
-              name: editName,
-              emoji: editEmoji || undefined,
-              color: editColor
-            }
-          }
-          return category
+          return category.id === selectedCategoryId
+            ? {
+                id: selectedCategoryId,
+                name: editName,
+                emoji: editEmoji || undefined,
+                color: editColor
+              }
+            : category
         })
 
         return {
@@ -195,72 +175,26 @@ const Categories = () => {
       setOpenEditDialog(false)
     }
   }
+  const handleOpenDeleteDialog = () => setOpenDeleteDialog(true)
 
-  if (!user.settings[0].enableCategories) {
-    return <NotFound message='Las categorías no están habilitadas.' />
-  }
+  const handleOpenEditDialog = () => setOpenEditDialog(true)
+
+  const handleChangeCategoryId = (value: UUID) => setSelectedCategoryId(value)
+
+  if (!user.settings[0].enableCategories) return <NotFound message='Las categorías no están habilitadas.' />
 
   return (
     <>
       <TopBar title='Categorías' />
       <CategoriesContainer>
         {user.categories.length > 0 ? (
-          <CategoryElementsContainer>
-            {user.categories.map((category) => {
-              const categoryTasks = user.tasks.filter((task) => task.category?.some((cat) => cat.id === category.id))
-
-              const completedTasksCount = categoryTasks.reduce((count, task) => (task.done ? count + 1 : count), 0)
-              const totalTasksCount = categoryTasks.length
-              const completionPercentage = totalTasksCount > 0 ? Math.floor((completedTasksCount / totalTasksCount) * 100) : 0
-
-              const displayPercentage = totalTasksCount > 0 ? `(${completionPercentage}%)` : ''
-
-              return (
-                <CategoryElement key={category.id} clr={category.color}>
-                  <CategoryContent translate='no'>
-                    <span>{category.emoji && <Emoji unified={category.emoji} emojiStyle={user.emojisStyle} />}</span>
-                    &nbsp;
-                    <span style={{ wordBreak: 'break-all', fontWeight: 600 }}>{category.name}</span>
-                    {totalTasksCount > 0 && (
-                      <Tooltip title='Porcentaje de completado de las tareas asignadas a esta categoría'>
-                        <span style={{ opacity: 0.8, fontStyle: 'italic' }}>{displayPercentage}</span>
-                      </Tooltip>
-                    )}
-                  </CategoryContent>
-                  <div style={{ display: 'flex', gap: '4px' }}>
-                    <ActionButton>
-                      <IconButton
-                        color='primary'
-                        onClick={() => {
-                          setSelectedCategoryId(category.id)
-                          setOpenEditDialog(true)
-                        }}
-                      >
-                        <Edit />
-                      </IconButton>
-                    </ActionButton>
-                    <ActionButton>
-                      <IconButton
-                        color='error'
-                        onClick={() => {
-                          setSelectedCategoryId(category.id)
-                          if (totalTasksCount > 0) {
-                            // Abrir diálogo de eliminación si hay tareas asociadas a la categoría
-                            setOpenDeleteDialog(true)
-                          } else {
-                            // Si no hay tareas asociadas, eliminar directamente
-                            handleDelete(category.id)
-                          }
-                        }}
-                      >
-                        <Delete />
-                      </IconButton>
-                    </ActionButton>
-                  </div>
-                </CategoryElement>
-              )
-            })}
-          </CategoryElementsContainer>
+          <CategoryElements
+            onChangeCategoryId={handleChangeCategoryId}
+            onCloseDeleteDialog={handleOpenDeleteDialog}
+            onOpenDeleteDialog={handleOpenDeleteDialog}
+            onDelete={handleDelete}
+            onOpenEditDialog={handleOpenEditDialog}
+          />
         ) : (
           <p>No tienes ninguna categoría</p>
         )}
