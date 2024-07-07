@@ -2,26 +2,22 @@ import { useTheme } from '@emotion/react'
 import {
   BrightnessAutoRounded,
   DarkModeRounded,
-  DeleteRounded,
   ExpandMoreRounded,
   LightModeRounded,
-  PersonalVideoRounded,
-  WifiOffRounded
+  PersonalVideoRounded
 } from '@mui/icons-material'
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogTitle,
   FormControl,
   FormGroup,
   FormLabel,
-  MenuItem,
   type SelectChangeEvent,
   Switch,
   Tooltip
 } from '@mui/material'
-import { Emoji, EmojiStyle } from 'emoji-picker-react'
+import { EmojiStyle } from 'emoji-picker-react'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { defaultUser } from '../../constants/defaultUser'
 import { UserContext } from '../../contexts/UserContext'
@@ -30,9 +26,10 @@ import { useSystemTheme } from '../../hooks/useSystemTheme'
 import { DialogBtn } from '../../styles'
 import { ColorPalette } from '../../theme/themeConfig'
 import type { AppSettings, DarkModeOptions } from '../../types/user'
-import { getFontColor, showToast } from '../../utils'
+import { getFontColor } from '../../utils'
 import { ContainerSettings, StyledFormLabel, StyledMenuItem, StyledSelect } from './Settings.styled'
 import { SettingsVoice } from './SettingsVoice'
+import { SettingsEmoji } from './SettingsEmoji'
 
 interface SettingsProps {
   open: boolean
@@ -132,12 +129,10 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
   const handleSettingChange = (name: keyof AppSettings) => (event: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = event.target.checked
     // cancel read aloud
-    if (name === 'enableReadAloud') {
-      window.speechSynthesis.cancel()
-    }
-    if (name === 'appBadge' && navigator.clearAppBadge && !isChecked) {
-      navigator.clearAppBadge()
-    }
+    if (name === 'enableReadAloud') window.speechSynthesis.cancel()
+
+    if (name === 'appBadge' && navigator.clearAppBadge && !isChecked) navigator.clearAppBadge()
+
     const updatedSettings: AppSettings = {
       ...userSettings,
       [name]: isChecked
@@ -264,76 +259,15 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
           </FormControl>
         </FormGroup>
 
-        {/* Componente Select para elegir el estilo de emojis */}
-        <FormGroup>
-          <FormControl>
-            <FormLabel>Configuración de Emojis</FormLabel>
-            <StyledSelect value={emojisStyle} onChange={handleEmojiStyleChange} translate='no' IconComponent={ExpandMoreRounded}>
-              {/* Mostrar un elemento de menú deshabilitado cuando esté sin conexión, indicando que no se puede cambiar el estilo */}
-              {!isOnline && (
-                <MenuItem
-                  disabled
-                  style={{
-                    opacity: 0.8,
-                    display: 'flex',
-                    gap: '6px',
-                    fontWeight: 500
-                  }}
-                >
-                  <WifiOffRounded /> No puedes cambiar el estilo de emojis <br /> cuando estás fuera de línea.
-                </MenuItem>
-              )}
+        <SettingsEmoji
+          emojiStyles={emojiStyles}
+          isOnline={isOnline}
+          lastStyle={lastStyle}
+          onEmojiStyleChange={handleEmojiStyleChange}
+          onSettingsChange={handleSettingChange}
+          userSettings={userSettings}
+        />
 
-              {emojiStyles.map((style) => (
-                <StyledMenuItem
-                  key={style.style}
-                  value={style.style}
-                  translate='no'
-                  disabled={
-                    !isOnline &&
-                    style.style !== EmojiStyle.NATIVE &&
-                    style.style !== defaultUser.emojisStyle &&
-                    style.style !== lastStyle
-                  }
-                >
-                  <Emoji size={24} unified='1f60e' emojiStyle={style.style} />
-                  &nbsp;
-                  {/* Espacio para Emoji Nativo */}
-                  {style.style === EmojiStyle.NATIVE && '\u00A0'}
-                  {style.label}
-                </StyledMenuItem>
-              ))}
-            </StyledSelect>
-
-            <Tooltip title='El selector de emojis solo mostrará emojis usados frecuentemente'>
-              <FormGroup>
-                <StyledFormLabel
-                  sx={{ opacity: userSettings.simpleEmojiPicker ? 1 : 0.8 }}
-                  control={
-                    <Switch checked={userSettings.simpleEmojiPicker} onChange={handleSettingChange('simpleEmojiPicker')} />
-                  }
-                  label='Selector de Emojis Simple'
-                />
-              </FormGroup>
-            </Tooltip>
-          </FormControl>
-
-          <Tooltip title='Esto eliminará los datos sobre emojis usados frecuentemente'>
-            <Button
-              color='error'
-              variant='outlined'
-              sx={{ my: '12px', p: '12px', borderRadius: '18px' }}
-              onClick={() => {
-                localStorage.removeItem('epr_suggested')
-                showToast('Datos de emojis eliminados.')
-              }}
-            >
-              <DeleteRounded /> &nbsp; Borrar Datos de Emojis
-            </Button>
-          </Tooltip>
-        </FormGroup>
-
-        {/* Componentes de interruptor para controlar diferentes configuraciones de la aplicación */}
         <FormGroup>
           <FormLabel>Configuraciones de la Aplicación</FormLabel>
           <StyledFormLabel
