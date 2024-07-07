@@ -300,16 +300,12 @@ export const ProfileSidebar = () => {
 
 const MenuLink = ({ to, children }: { to: string; children: React.ReactNode }) => {
   const styles: React.CSSProperties = { borderRadius: '14px' }
-  if (to.startsWith('/')) {
-    return (
-      // React Router Link component for internal navigation
-      <Link to={to} style={styles}>
-        {children}
-      </Link>
-    )
-  }
-  // Render an anchor tag for external navigation
-  return (
+
+  return to.startsWith('/') ? (
+    <Link to={to} style={styles}>
+      {children}
+    </Link>
+  ) : (
     <a href={to} target='_blank' style={styles} rel='noreferrer'>
       {children}
     </a>

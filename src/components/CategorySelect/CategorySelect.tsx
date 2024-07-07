@@ -1,8 +1,8 @@
-import { ExpandMoreRounded } from '@mui/icons-material'
+import { ExpandMoreRounded, RadioButtonChecked } from '@mui/icons-material'
 import { Box, FormControl, FormLabel, type SelectChangeEvent } from '@mui/material'
 import { type CSSProperties, useContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { StyledSelect } from './CategorySelect.styled'
+
+import { CategoriesMenu, StyledSelect } from './CategorySelect.styled'
 import { Category, UUID } from '../../types/user'
 import { UserContext } from '../../contexts/UserContext'
 import { MAX_CATEGORIES_IN_TASK } from '../../constants'
@@ -10,7 +10,9 @@ import { ColorPalette } from '../../theme/themeConfig'
 import { showToast } from '../../utils'
 import { CategoryBadge } from '../CategoryBadge/CategoryBadge'
 import { CategorySelectHeader } from './CategoryHeaderSelect'
-import { CategorySelection } from './CategorySelection'
+import { useNavigate } from 'react-router-dom'
+import { Emoji } from 'emoji-picker-react'
+import { NonCategory } from './NonCategory'
 
 interface CategorySelectProps {
   selectedCategories: Category[]
@@ -26,6 +28,7 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({ selectedCategori
   const { user } = useContext(UserContext)
   const { categories, emojisStyle } = user
   const [selectedCats, setSelectedCats] = useState<Category[]>(selectedCategories)
+  const n = useNavigate()
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const handleCategoryChange = (event: SelectChangeEvent<unknown>): void => {
     const selectedCategoryIds = event.target.value as UUID[]
@@ -93,7 +96,24 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({ selectedCategori
         }}
       >
         <CategorySelectHeader categories={categories} selectedCats={selectedCats} />
-        <CategorySelection categories={categories} selectedCats={selectedCats} emojisStyle={emojisStyle} />
+        {categories && categories.length > 0 ? (
+          categories.map((category) => (
+            <CategoriesMenu
+              key={category.id}
+              value={category.id}
+              clr={category.color}
+              translate='no'
+              disable={selectedCats.length >= MAX_CATEGORIES_IN_TASK && !selectedCats.some((cat) => cat.id === category.id)}
+            >
+              {selectedCats.some((cat) => cat.id === category.id) && <RadioButtonChecked />}
+              {category.emoji && <Emoji unified={category.emoji} emojiStyle={emojisStyle} />}
+              &nbsp;
+              {category.name}
+            </CategoriesMenu>
+          ))
+        ) : (
+          <NonCategory n={n} />
+        )}
       </StyledSelect>
     </FormControl>
   )
