@@ -1,4 +1,4 @@
-import { AddAPhotoRounded, Logout, PersonalVideoRounded, Settings, TodayRounded } from '@mui/icons-material'
+import { AddAPhotoRounded, Logout, Settings, TodayRounded } from '@mui/icons-material'
 import {
   Avatar,
   Badge,
@@ -7,7 +7,6 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Grid,
   IconButton,
   TextField,
   Tooltip
@@ -17,19 +16,11 @@ import { SettingsDialog, TopBar } from '../components'
 import { PROFILE_PICTURE_MAX_LENGTH, USER_NAME_MAX_LENGTH } from '../constants'
 import { defaultUser } from '../constants/defaultUser'
 import { UserContext } from '../contexts/UserContext'
-import { useSystemTheme } from '../hooks/useSystemTheme'
-import { ColorElement, DialogBtn, UserAvatar } from '../styles'
-import { Themes } from '../theme/theme'
+import { DialogBtn, UserAvatar } from '../styles'
 import { showToast, timeAgo } from '../utils'
-import {
-  ContainerUser,
-  CheckIcon,
-  CreatedAtDate,
-  SaveBtn,
-  ThemePickerContainer,
-  UserName
-} from './UserProfile/UserProfile.styled'
+import { ContainerUser, CreatedAtDate, SaveBtn, UserName } from './UserProfile/UserProfile.styled'
 import { ChangeUserPhoto } from './UserProfile/ChangeUserPhoto'
+import { ThemePicker } from './UserProfile/ThemePicker'
 
 const UserProfile = () => {
   const { user, setUser } = useContext(UserContext)
@@ -40,10 +31,8 @@ const UserProfile = () => {
   const [logoutConfirmationOpen, setLogoutConfirmationOpen] = useState<boolean>(false)
   const [openSettings, setOpenSettings] = useState<boolean>(false)
 
-  const systemTheme = useSystemTheme()
-
   useEffect(() => {
-    document.title = `Todo App - User ${name ? `(${name})` : ''}`
+    document.title = `Todo App - Usuario ${name ? `(${name})` : ''}`
   }, [name])
 
   const handleSaveName = () => {
@@ -155,61 +144,7 @@ const UserProfile = () => {
           </CreatedAtDate>
         </Tooltip>
 
-        <ThemePickerContainer
-          container
-          maxWidth='300px'
-          marginBottom='6px'
-          marginTop='1px'
-          display='flex'
-          justifyContent='left'
-          alignItems='center'
-          gap={1}
-        >
-          <Grid item>
-            <Tooltip title={`Sistema (${systemTheme})`}>
-              <ColorElement
-                clr={systemTheme === 'dark' || systemTheme === 'unknown' ? '#3d3e59' : '#ffffff'}
-                style={{ transition: '.3s background' }}
-                size='40px'
-                onClick={() => {
-                  setUser((prevUser) => ({
-                    ...prevUser,
-                    theme: 'system'
-                  }))
-                }}
-              >
-                <Badge badgeContent={user.theme === 'system' ? <CheckIcon /> : undefined}>
-                  <PersonalVideoRounded sx={{ color: systemTheme === 'dark' ? 'white' : 'black' }} />
-                </Badge>
-              </ColorElement>
-            </Tooltip>
-          </Grid>
-          {Themes.map((theme) => (
-            <Grid key={theme.name}>
-              <Tooltip title={theme.name[0].toUpperCase() + theme.name.replace(theme.name[0], '')}>
-                <ColorElement
-                  clr={theme.MuiTheme.palette.primary.main}
-                  secondClr={theme.MuiTheme.palette.secondary.main}
-                  aria-label={`Cambiar tema - ${theme.name}`}
-                  size='40px'
-                  style={{
-                    border: user.theme === theme.name ? `3px solid ${theme.MuiTheme.palette.primary.main}` : 'none'
-                  }}
-                  onClick={() => {
-                    setUser((prevUser) => ({
-                      ...prevUser,
-                      theme: theme.name
-                    }))
-                  }}
-                >
-                  <Badge badgeContent={user.theme === theme.name ? <CheckIcon /> : undefined}>
-                    <div style={{ width: '24px', height: '24px' }} />
-                  </Badge>
-                </ColorElement>
-              </Tooltip>
-            </Grid>
-          ))}
-        </ThemePickerContainer>
+        <ThemePicker />
         <TextField
           sx={{ width: '300px' }}
           label={name === null ? 'Agregar Nombre' : 'Cambiar Nombre'}
