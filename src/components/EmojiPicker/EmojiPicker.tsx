@@ -1,14 +1,13 @@
 import { useTheme } from '@emotion/react'
-import styled from '@emotion/styled'
-import { AddReaction, AutoAwesome, Edit, RemoveCircleOutline } from '@mui/icons-material'
-import { Avatar, Badge, Button, CircularProgress } from '@mui/material'
-import { Emoji, type EmojiClickData, EmojiStyle, SuggestionMode, Theme } from 'emoji-picker-react'
+import { AutoAwesome, Edit, RemoveCircleOutline } from '@mui/icons-material'
+import { Avatar, Badge, Button } from '@mui/material'
+import { type EmojiClickData, EmojiStyle, SuggestionMode, Theme } from 'emoji-picker-react'
 import { type CSSProperties, type Dispatch, type SetStateAction, Suspense, lazy, useContext, useEffect, useState } from 'react'
-import { UserContext } from '../contexts/UserContext'
-import { useOnlineStatus } from '../hooks/useOnlineStatus'
-import { fadeIn } from '../styles'
-import { ColorPalette } from '../theme/themeConfig'
-import { getFontColor, showToast, systemInfo } from '../utils'
+import { UserContext } from '../../contexts/UserContext'
+import { useOnlineStatus } from '../../hooks/useOnlineStatus'
+import { showToast } from '../../utils'
+import { EmojiContainer, EmojiPickerContainer, PickerLoader } from './EmojiPicker.styled'
+import { AvatarContent } from './AvatarContent'
 
 const EmojiPicker = lazy(() => import('emoji-picker-react'))
 
@@ -116,9 +115,8 @@ export const CustomEmojiPicker = ({ emoji, setEmoji, color, width, name }: Emoji
 
   const emojiToUnified = (emoji: string): string => {
     const codePoints = [...emoji].map((char) => {
-      if (char) {
-        return char.codePointAt(0)?.toString(16).toUpperCase() ?? ''
-      }
+      if (char) return char.codePointAt(0)?.toString(16).toUpperCase() ?? ''
+
       return ''
     })
     return codePoints.join('-')
@@ -126,31 +124,6 @@ export const CustomEmojiPicker = ({ emoji, setEmoji, color, width, name }: Emoji
   // fin del código de la característica experimental de AI
 
   // Función para renderizar el contenido del Avatar basado en si se ha seleccionado un emoji o no
-  const renderAvatarContent = () => {
-    const fontColor = color ? getFontColor(color) : ColorPalette.fontLight
-    if (isAILoading) {
-      return <CircularProgress size={40} thickness={5} sx={{ color: fontColor }} />
-    }
-    if (currentEmoji) {
-      const emojiSize =
-        emojisStyle === EmojiStyle.NATIVE && systemInfo.os === 'iOS' ? 64 : emojisStyle === EmojiStyle.NATIVE ? 48 : 64
-
-      return (
-        <EmojiElement key={currentEmoji}>
-          <Emoji size={emojiSize} emojiStyle={emojisStyle} unified={currentEmoji} />
-        </EmojiElement>
-      )
-    }
-    return (
-      <AddReaction
-        sx={{
-          fontSize: '52px',
-          color: fontColor,
-          transition: '.3s all'
-        }}
-      />
-    )
-  }
 
   return (
     <>
@@ -181,7 +154,7 @@ export const CustomEmojiPicker = ({ emoji, setEmoji, color, width, name }: Emoji
               cursor: 'pointer'
             }}
           >
-            {renderAvatarContent()}
+            {color && <AvatarContent color={color} currentEmoji={currentEmoji} isAILoading={isAILoading} />}
           </Avatar>
         </Badge>
       </EmojiContainer>
@@ -266,37 +239,3 @@ export const CustomEmojiPicker = ({ emoji, setEmoji, color, width, name }: Emoji
     </>
   )
 }
-
-const EmojiContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 14px;
-`
-
-const EmojiPickerContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 24px;
-  animation: ${fadeIn} 0.4s ease-in;
-`
-
-const PickerLoader = styled.div<{
-  pickerTheme: 'light' | 'dark' | undefined
-  width: CSSProperties['width'] | undefined
-}>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: ${({ width }) => width || '350px'};
-  height: 500px;
-  padding: 8px;
-  border-radius: 20px;
-  background: ${({ pickerTheme }) => (pickerTheme === 'dark' ? '#222222' : '#ffffff')};
-  border: ${({ pickerTheme }) => `1px solid ${pickerTheme === 'dark' ? '#151617' : '#e7e7e7'}`};
-`
-
-const EmojiElement = styled.div`
-  animation: ${fadeIn} 0.4s ease-in;
-`

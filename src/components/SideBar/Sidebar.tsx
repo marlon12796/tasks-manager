@@ -114,7 +114,7 @@ export const ProfileSidebar = () => {
             handleClose()
           }}
         >
-          <Logo src={logo} alt='logo' />
+          <Logo src='https://github.com/shadcn.png' alt='logo' />
           <LogoText>
             <span>App de Tareas</span>
             <span>.</span>
