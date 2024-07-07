@@ -1,50 +1,38 @@
 import { useTheme } from '@emotion/react'
-import styled from '@emotion/styled'
 import {
   BrightnessAutoRounded,
-  CachedRounded,
   DarkModeRounded,
   DeleteRounded,
   ExpandMoreRounded,
-  Google,
   LightModeRounded,
-  Microsoft,
   PersonalVideoRounded,
-  VolumeDown,
-  VolumeOff,
-  VolumeUp,
   WifiOffRounded
 } from '@mui/icons-material'
 import {
-  Box,
   Button,
-  Chip,
   Dialog,
   DialogActions,
   DialogTitle,
   FormControl,
-  FormControlLabel,
   FormGroup,
   FormLabel,
-  IconButton,
   MenuItem,
-  Select,
   type SelectChangeEvent,
-  Slider,
-  Stack,
   Switch,
   Tooltip
 } from '@mui/material'
 import { Emoji, EmojiStyle } from 'emoji-picker-react'
 import { useCallback, useContext, useEffect, useState } from 'react'
-import { defaultUser } from '../constants/defaultUser'
-import { UserContext } from '../contexts/UserContext'
-import { useOnlineStatus } from '../hooks/useOnlineStatus'
-import { useSystemTheme } from '../hooks/useSystemTheme'
-import { DialogBtn } from '../styles'
-import { ColorPalette } from '../theme/themeConfig'
-import type { AppSettings, DarkModeOptions } from '../types/user'
-import { getFontColor, showToast, systemInfo } from '../utils'
+import { defaultUser } from '../../constants/defaultUser'
+import { UserContext } from '../../contexts/UserContext'
+import { useOnlineStatus } from '../../hooks/useOnlineStatus'
+import { useSystemTheme } from '../../hooks/useSystemTheme'
+import { DialogBtn } from '../../styles'
+import { ColorPalette } from '../../theme/themeConfig'
+import type { AppSettings, DarkModeOptions } from '../../types/user'
+import { getFontColor, showToast } from '../../utils'
+import { ContainerSettings, StyledFormLabel, StyledMenuItem, StyledSelect } from './Settings.styled'
+import { SettingsVoice } from './SettingsVoice'
 
 interface SettingsProps {
   open: boolean
@@ -196,7 +184,7 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
   }
 
   // Function to handle changes in voice volume after mouse up
-  const handleVoiceVolCommitChange = (_event: Event | React.SyntheticEvent<Element, Event>, value: number | number[]) => {
+  const handleVoiceVolCommitChange = (value: number | number[]) => {
     // Update user settings with the new voice volume
     setUser((prevUser) => ({
       ...prevUser,
@@ -207,6 +195,9 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
         }
       ]
     }))
+  }
+  const handleModifiedVoiceVolume = (newVoiceVolume: number) => {
+    setVoiceVolume(newVoiceVolume)
   }
 
   // Function to handle mute/unmute button click
@@ -251,11 +242,13 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
   const filteredVoices = showLocalVoices
     ? availableVoices.filter((voice) => voice.lang.startsWith(navigator.language))
     : availableVoices
-
+  const handleChangeLocalVoices = () => {
+    setShowLocalVoices((prev) => !prev)
+  }
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle sx={{ fontWeight: 600 }}>Configuración</DialogTitle>
-      <Container>
+      <ContainerSettings>
         <FormGroup>
           <FormControl>
             <FormLabel>Modo Oscuro</FormLabel>
@@ -405,111 +398,21 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
         </FormGroup>
 
         {settings[0].enableReadAloud && (
-          <FormGroup>
-            <FormControl>
-              <FormLabel>Configuración de Voz</FormLabel>
-              <StyledFormLabel
-                sx={{ opacity: showLocalVoices ? 1 : 0.8, maxWidth: '300px' }}
-                control={<Switch checked={showLocalVoices} onChange={() => setShowLocalVoices((prev) => !prev)} />}
-                label={`Solo voces locales (${getLanguageRegion(navigator.language) || '?'})`}
-              />
-              {filteredVoices.length !== 0 ? (
-                <StyledSelect
-                  value={settings[0].voice}
-                  variant='outlined'
-                  onChange={handleVoiceChange}
-                  translate='no'
-                  IconComponent={ExpandMoreRounded}
-                  MenuProps={{
-                    PaperProps: {
-                      style: {
-                        maxHeight: 500,
-                        padding: '2px 6px'
-                      }
-                    }
-                  }}
-                >
-                  {filteredVoices.map((voice) => (
-                    <MenuItem
-                      key={voice.name}
-                      value={voice.name}
-                      translate='no'
-                      sx={{
-                        padding: '10px',
-                        borderRadius: '8px'
-                      }}
-                    >
-                      {voice.name.startsWith('Google') && <Google />}
-                      {voice.name.startsWith('Microsoft') && <Microsoft />} &nbsp;{' '}
-                      {/* Eliminar Google o Microsoft al principio y cualquier cosa entre paréntesis */}
-                      {voice.name.replace(/^(Google|Microsoft)\s*|\([^()]*\)/gi, '')} &nbsp;
-                      {!/Windows NT 10/.test(navigator.userAgent) ? (
-                        <Chip
-                          sx={{ fontWeight: 500, padding: '4px' }}
-                          label={getLanguageRegion(voice.lang || '')}
-                          icon={<span style={{ fontSize: '16px' }}>{getFlagEmoji(voice.lang.split('-')[1] || '')}</span>}
-                        />
-                      ) : (
-                        <span style={{ fontWeight: 500 }}>{getLanguageRegion(voice.lang || '')}</span>
-                      )}
-                      {voice.default && systemInfo.os !== 'iOS' && systemInfo.os !== 'macOS' && (
-                        <span style={{ fontWeight: 600 }}>&nbsp;Por Defecto</span>
-                      )}
-                    </MenuItem>
-                  ))}
-                </StyledSelect>
-              ) : (
-                <NoVoiceStyles>
-                  No hay estilos de voz disponibles.
-                  <Tooltip title='Volver a buscar voces'>
-                    <IconButton
-                      size='large'
-                      onClick={() => {
-                        setAvailableVoices(getAvailableVoices() ?? [])
-                      }}
-                    >
-                      <CachedRounded fontSize='large' />
-                    </IconButton>
-                  </Tooltip>
-                </NoVoiceStyles>
-              )}
-            </FormControl>
-
-            <Box>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}
-              >
-                <VolumeSlider spacing={2} direction='row' alignItems='center'>
-                  <Tooltip title={voiceVolume ? 'Silenciar' : 'Activar Sonido'} onClick={handleMuteClick}>
-                    <IconButton>
-                      {voiceVolume === 0 ? <VolumeOff /> : voiceVolume <= 0.4 ? <VolumeDown /> : <VolumeUp />}
-                    </IconButton>
-                  </Tooltip>
-                  <Slider
-                    sx={{
-                      width: '100%'
-                    }}
-                    value={voiceVolume}
-                    onChange={(_event, value) => setVoiceVolume(value as number)}
-                    onChangeCommitted={handleVoiceVolCommitChange}
-                    min={0}
-                    max={1}
-                    step={0.01}
-                    aria-label='Control de Volumen'
-                    valueLabelFormat={() => {
-                      const vol = Math.floor(voiceVolume * 100)
-                      return vol === 0 ? 'Silenciado' : `${vol}%`
-                    }}
-                    valueLabelDisplay='auto'
-                  />
-                </VolumeSlider>
-              </div>
-            </Box>
-          </FormGroup>
+          <SettingsVoice
+            filteredVoices={filteredVoices}
+            getAvailableVoices={getAvailableVoices}
+            getFlagEmoji={getFlagEmoji}
+            getLanguageRegion={getLanguageRegion}
+            settings={settings}
+            voiceVolume={voiceVolume}
+            showLocalVoices={showLocalVoices}
+            onChangeLocalVoices={handleChangeLocalVoices}
+            onVoiceChange={handleVoiceChange}
+            onMuteClicked={handleMuteClick}
+            onVoiceVolCommitChange={handleVoiceVolCommitChange}
+            onModifiedVoiceVolume={handleModifiedVoiceVolume}
+            setAvailableVoices={setAvailableVoices}
+          />
         )}
 
         {storageUsage !== undefined && storageUsage !== 0 && (
@@ -518,7 +421,7 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
             <div>{storageUsage ? `${(storageUsage / 1024 / 1024).toFixed(2)} MB` : '0 MB'}</div>
           </FormGroup>
         )}
-      </Container>
+      </ContainerSettings>
 
       <DialogActions>
         <DialogBtn onClick={onClose}>Cerrar</DialogBtn>
@@ -526,49 +429,3 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
     </Dialog>
   )
 }
-
-const Container = styled.div`
-  display: flex;
-  justify-content: left;
-  align-items: left;
-  flex-direction: column;
-  user-select: none;
-  margin: 0 18px;
-  gap: 6px;
-`
-
-const StyledSelect = styled(Select)`
-  width: 360px;
-  margin: 8px 0;
-`
-
-const StyledMenuItem = styled(MenuItem)`
-  padding: 12px 20px;
-  border-radius: 12px;
-  margin: 0 8px;
-  display: flex;
-  gap: 6px;
-`
-
-const StyledFormLabel = styled(FormControlLabel)`
-  max-width: 350px;
-`
-
-const NoVoiceStyles = styled.p`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 6px;
-  opacity: 0.8;
-  font-weight: 500;
-  max-width: 330px;
-`
-
-const VolumeSlider = styled(Stack)`
-  margin: 8px 0;
-  background: #afafaf39;
-  padding: 12px 24px 12px 18px;
-  border-radius: 18px;
-  transition: 0.3s all;
-  width: 100%;
-`

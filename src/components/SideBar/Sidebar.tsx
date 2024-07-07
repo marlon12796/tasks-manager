@@ -33,8 +33,8 @@ import {
   StyledSwipeableDrawer
 } from './Sidebar.styled'
 import { showToast, systemInfo } from '../../utils'
-import { SettingsDialog } from '../Settings'
 import { MenuLink } from './MenuLink'
+import { SettingsDialog } from '../Settings/Settings'
 
 export const ProfileSidebar = () => {
   const { user, setUser } = useContext(UserContext)
