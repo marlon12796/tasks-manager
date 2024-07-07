@@ -1,14 +1,23 @@
-import styled from '@emotion/styled'
 import { Clear, Done } from '@mui/icons-material'
 import { Emoji } from 'emoji-picker-react'
 import { getColorName } from 'ntc-ts'
 import { useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { TopBar } from '../components'
 import { UserContext } from '../contexts/UserContext'
 import { PathName } from '../styles'
 import NotFound from './NotFound'
 import { CategoryBadge } from '../components/CategoryBadge/CategoryBadge'
+import {
+  ContainerTaksDetails,
+  CategoryContainer,
+  ColorSquare,
+  TableData,
+  TableHeader,
+  TableRow,
+  TaskName,
+  TaskTable
+} from './TaskDetails/TaskDetails.styled'
+import { TopBar } from '../components'
 const TaskDetails = () => {
   const { user } = useContext(UserContext)
   const { tasks, emojisStyle } = user
@@ -40,7 +49,7 @@ const TaskDetails = () => {
   return (
     <>
       <TopBar title='Detalles de la Tarea' />
-      <Container>
+      <ContainerTaksDetails>
         <TaskName>
           Tarea: <span translate='no'>{task.name}</span>
         </TaskName>
@@ -121,85 +130,9 @@ const TaskDetails = () => {
             )}
           </tbody>
         </TaskTable>
-      </Container>
+      </ContainerTaksDetails>
     </>
   )
 }
 
 export default TaskDetails
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 16px;
-  border-radius: 32px;
-  margin: 0 auto;
-  margin-top: 100px;
-  box-shadow: 0 0px 24px 2px rgba(0, 0, 0, 0.3);
-
-  @media (min-width: 768px) {
-    padding: 24px;
-    width: 70%;
-  }
-`
-
-const TaskName = styled.h2`
-  margin: 8px;
-  text-align: center;
-  font-size: 1.5em;
-
-  @media (min-width: 768px) {
-    font-size: 1.8em;
-  }
-`
-
-const TaskTable = styled.table`
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 16px;
-`
-
-const TableRow = styled.tr`
-  border-bottom: 2px solid ${({ theme }) => theme.primary}41;
-
-  &:last-child {
-    border-bottom: none;
-  }
-`
-
-const TableHeader = styled.th`
-  text-align: left;
-  padding: 8px;
-  font-size: 1em;
-
-  @media (min-width: 768px) {
-    font-size: 1.2em;
-  }
-`
-
-const TableData = styled.td`
-  text-align: left;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 1em;
-  word-break: break-all;
-  @media (min-width: 768px) {
-    font-size: 1.1em;
-  }
-`
-
-const ColorSquare = styled.div<{ clr: string }>`
-  width: 20px;
-  height: 20px;
-  border-radius: 6px;
-  background-color: ${({ clr }) => clr};
-`
-
-const CategoryContainer = styled.div`
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 6px;
-`

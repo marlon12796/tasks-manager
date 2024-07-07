@@ -180,7 +180,6 @@ const ImportExport = () => {
             if (existingTask) {
               return acc.map((t) => (t.id === task.id ? task : t))
             }
-            // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
             return [...acc, task]
           }, [] as Task[])
 
@@ -212,9 +211,7 @@ const ImportExport = () => {
             { dismissButton: true, type: 'blank' }
           )
 
-          if (fileInputRef.current) {
-            fileInputRef.current.value = ''
-          }
+          if (fileInputRef.current) fileInputRef.current.value = ''
         } catch (error) {
           console.error(`Error parsing the imported file ${file.name}:`, error)
           showToast(
