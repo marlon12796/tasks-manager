@@ -1,7 +1,5 @@
-import styled from '@emotion/styled'
 import {
   AddAPhotoRounded,
-  CheckRounded,
   Delete,
   LinkRounded,
   Logout,
@@ -32,8 +30,15 @@ import { UserContext } from '../contexts/UserContext'
 import { useSystemTheme } from '../hooks/useSystemTheme'
 import { ColorElement, DialogBtn, UserAvatar } from '../styles'
 import { Themes } from '../theme/theme'
-import { ColorPalette } from '../theme/themeConfig'
-import { getFontColor, showToast, timeAgo } from '../utils'
+import { showToast, timeAgo } from '../utils'
+import {
+  ContainerUser,
+  CheckIcon,
+  CreatedAtDate,
+  SaveBtn,
+  ThemePickerContainer,
+  UserName
+} from './UserProfile/UserProfile.styled'
 
 const UserProfile = () => {
   const { user, setUser } = useContext(UserContext)
@@ -101,7 +106,7 @@ const UserProfile = () => {
   return (
     <>
       <TopBar title='Perfil de Usuario' />
-      <Container>
+      <ContainerUser>
         <Tooltip title='Configuración de la Aplicación'>
           <IconButton
             onClick={() => setOpenSettings(true)}
@@ -242,7 +247,7 @@ const UserProfile = () => {
           <Logout />
           &nbsp; Cerrar sesión
         </Button>
-      </Container>
+      </ContainerUser>
       <Dialog open={openChangeImage} onClose={handleCloseImageDialog}>
         <DialogTitle>Cambiar Foto de Perfil</DialogTitle>
         <DialogContent>
@@ -318,81 +323,3 @@ const UserProfile = () => {
 }
 
 export default UserProfile
-
-const Container = styled.div`
-  margin: 0 auto;
-  max-width: 400px;
-  padding: 64px 48px;
-  border-radius: 48px;
-  box-shadow: 0px 4px 50px rgba(0, 0, 0, 0.25);
-  background: ${({ theme }) => (theme.darkmode ? '#383838' : '#f5f5f5')};
-  color: ${({ theme }) => (theme.darkmode ? ColorPalette.fontLight : ColorPalette.fontDark)};
-  transition: border 0.3s, box-shadow 0.3s;
-  border: 4px solid ${({ theme }) => theme.primary};
-  box-shadow: 0 0 72px -1px ${({ theme }) => `${theme.primary}bf`};
-  display: flex;
-  gap: 14px;
-  flex-direction: column;
-  align-items: center;
-  flex-direction: column;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-`
-
-const CheckIcon = styled(CheckRounded)`
-  font-size: 18px;
-  padding: 2px;
-  color: white;
-  background: #242427;
-  border-radius: 100px;
-`
-
-const ThemePickerContainer = styled(Grid)`
-  background: ${({ theme }) => (theme.darkmode ? '#505050' : '#d9d9d9')};
-  padding: 10px;
-  border-radius: 32px;
-  overflow-y: auto;
-`
-
-const SaveBtn = styled(Button)`
-  width: 300px;
-  font-weight: 600;
-  border: none;
-  background: ${({ theme }) => theme.primary};
-  color: ${({ theme }) => getFontColor(theme.primary)};
-  font-size: 18px;
-  padding: 14px;
-  border-radius: 16px;
-  cursor: pointer;
-  text-transform: capitalize;
-  transition: background 0.3s, color 0.3s;
-  &:hover {
-    background: ${({ theme }) => theme.primary};
-  }
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.7;
-    color: white;
-  }
-`
-
-const UserName = styled.span`
-  font-size: 20px;
-  font-weight: 500;
-`
-
-const CreatedAtDate = styled.span`
-  display: flex;
-  align-items: center;
-  font-style: italic;
-  font-weight: 400;
-  opacity: 0.8;
-  margin-top: -5px;
-  margin-bottom: 2px;
-  // fix for browser translate
-  & font {
-    margin: 0 1px;
-  }
-`
