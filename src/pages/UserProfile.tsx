@@ -1,13 +1,4 @@
-import {
-  AddAPhotoRounded,
-  Delete,
-  LinkRounded,
-  Logout,
-  PersonalVideoRounded,
-  SaveRounded,
-  Settings,
-  TodayRounded
-} from '@mui/icons-material'
+import { AddAPhotoRounded, Logout, PersonalVideoRounded, Settings, TodayRounded } from '@mui/icons-material'
 import {
   Avatar,
   Badge,
@@ -18,7 +9,6 @@ import {
   DialogTitle,
   Grid,
   IconButton,
-  InputAdornment,
   TextField,
   Tooltip
 } from '@mui/material'
@@ -39,6 +29,7 @@ import {
   ThemePickerContainer,
   UserName
 } from './UserProfile/UserProfile.styled'
+import { ChangeUserPhoto } from './UserProfile/ChangeUserPhoto'
 
 const UserProfile = () => {
   const { user, setUser } = useContext(UserContext)
@@ -101,6 +92,9 @@ const UserProfile = () => {
       }))
       showToast('Changed profile picture.')
     }
+  }
+  const handleChangeProfilePictureUrl = (value: string) => {
+    setProfilePictureURL(value)
   }
 
   return (
@@ -248,63 +242,14 @@ const UserProfile = () => {
           &nbsp; Cerrar sesión
         </Button>
       </ContainerUser>
-      <Dialog open={openChangeImage} onClose={handleCloseImageDialog}>
-        <DialogTitle>Cambiar Foto de Perfil</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            label='Enlace a la foto de perfil'
-            placeholder='Ingrese el enlace a la foto de perfil...'
-            sx={{ my: '8px', width: '300px' }}
-            value={profilePictureURL}
-            onChange={(e) => {
-              setProfilePictureURL(e.target.value)
-            }}
-            onKeyDown={(e) => e.key === 'Enter' && handleSaveImage()}
-            error={profilePictureURL.length > PROFILE_PICTURE_MAX_LENGTH}
-            helperText={
-              profilePictureURL.length > PROFILE_PICTURE_MAX_LENGTH
-                ? `El URL es demasiado largo, máximo ${PROFILE_PICTURE_MAX_LENGTH} caracteres`
-                : ''
-            }
-            autoComplete='url'
-            type='url'
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position='start'>
-                  <LinkRounded />
-                </InputAdornment>
-              )
-            }}
-          />
-
-          <br />
-          {profilePicture !== null && (
-            <Button
-              fullWidth
-              onClick={() => {
-                handleCloseImageDialog()
-                showToast('Imagen de perfil eliminada.')
-                setUser({ ...user, profilePicture: null })
-              }}
-              color='error'
-              variant='outlined'
-              sx={{ margin: '16px 0', p: '12px 20px', borderRadius: '14px' }}
-            >
-              <Delete /> &nbsp; Eliminar Imagen
-            </Button>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <DialogBtn onClick={handleCloseImageDialog}>Cancelar</DialogBtn>
-          <DialogBtn
-            disabled={profilePictureURL.length > PROFILE_PICTURE_MAX_LENGTH || !profilePictureURL.startsWith('https://')}
-            onClick={handleSaveImage}
-          >
-            <SaveRounded /> &nbsp; Guardar
-          </DialogBtn>
-        </DialogActions>
-      </Dialog>
+      <ChangeUserPhoto
+        open={openChangeImage}
+        oneSaveImage={handleSaveImage}
+        profilePictureURL={profilePictureURL}
+        openChangeImage={openChangeImage}
+        onCloseImageDialog={handleCloseImageDialog}
+        onChangeProfilePictureURL={handleChangeProfilePictureUrl}
+      />
       <Dialog open={logoutConfirmationOpen} onClose={handleLogoutConfirmationClose}>
         <DialogTitle>Confirmación de Cierre de Sesión</DialogTitle>
         <DialogContent>
