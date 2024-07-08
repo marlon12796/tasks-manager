@@ -13,7 +13,7 @@ import {
   Tooltip
 } from '@mui/material'
 import { systemInfo } from '../../utils'
-import { NoVoiceStyles, StyledFormLabel, StyledSelect, VolumeSlider } from './Settings.styled'
+import { SettingsNoVoiceStyles, SettingsStyledFormLabel, SettingsStyledSelect, SettingsVolumeSlider } from './Settings.styled'
 import { AppSettings } from '@/types/user'
 interface SettingsVoiceTypes {
   filteredVoices: SpeechSynthesisVoice[]
@@ -49,13 +49,13 @@ export const SettingsVoice = ({
     <FormGroup>
       <FormControl>
         <FormLabel>Configuración de Voz</FormLabel>
-        <StyledFormLabel
+        <SettingsStyledFormLabel
           sx={{ opacity: showLocalVoices ? 1 : 0.8, maxWidth: '300px' }}
           control={<Switch checked={showLocalVoices} onChange={onChangeLocalVoices} />}
           label={`Solo voces locales (${getLanguageRegion(navigator.language) || '?'})`}
         />
         {filteredVoices.length !== 0 ? (
-          <StyledSelect
+          <SettingsStyledSelect
             value={settings[0].voice}
             variant='outlined'
             onChange={onVoiceChange}
@@ -98,9 +98,9 @@ export const SettingsVoice = ({
                 )}
               </MenuItem>
             ))}
-          </StyledSelect>
+          </SettingsStyledSelect>
         ) : (
-          <NoVoiceStyles>
+          <SettingsNoVoiceStyles>
             No hay estilos de voz disponibles.
             <Tooltip title='Volver a buscar voces'>
               <IconButton
@@ -112,7 +112,7 @@ export const SettingsVoice = ({
                 <CachedRounded fontSize='large' />
               </IconButton>
             </Tooltip>
-          </NoVoiceStyles>
+          </SettingsNoVoiceStyles>
         )}
       </FormControl>
 
@@ -124,7 +124,7 @@ export const SettingsVoice = ({
             alignItems: 'center'
           }}
         >
-          <VolumeSlider spacing={2} direction='row' alignItems='center'>
+          <SettingsVolumeSlider spacing={2} direction='row' alignItems='center'>
             <Tooltip title={voiceVolume ? 'Silenciar' : 'Activar Sonido'} onClick={onMuteClicked}>
               <IconButton>{voiceVolume === 0 ? <VolumeOff /> : voiceVolume <= 0.4 ? <VolumeDown /> : <VolumeUp />}</IconButton>
             </Tooltip>
@@ -145,7 +145,7 @@ export const SettingsVoice = ({
               }}
               valueLabelDisplay='auto'
             />
-          </VolumeSlider>
+          </SettingsVolumeSlider>
         </div>
       </Box>
     </FormGroup>

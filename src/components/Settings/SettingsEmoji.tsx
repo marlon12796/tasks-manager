@@ -3,7 +3,7 @@ import { Button, FormControl, FormGroup, FormLabel, MenuItem, SelectChangeEvent,
 import { Emoji, EmojiStyle } from 'emoji-picker-react'
 import { defaultUser } from '../../constants/defaultUser'
 import { showToast } from '../../utils'
-import { StyledFormLabel, StyledMenuItem, StyledSelect } from './Settings.styled'
+import { SettingsStyledFormLabel, SettingsStyledMenuItem, SettingsStyledSelect } from './Settings.styled'
 import { AppSettings } from '@/types/user'
 import { useContext } from 'react'
 import { UserContext } from '../../contexts/UserContext'
@@ -35,7 +35,7 @@ export const SettingsEmoji = ({
     <FormGroup>
       <FormControl>
         <FormLabel>Configuración de Emojis</FormLabel>
-        <StyledSelect value={emojisStyle} onChange={onEmojiStyleChange} translate='no' IconComponent={ExpandMoreRounded}>
+        <SettingsStyledSelect value={emojisStyle} onChange={onEmojiStyleChange} translate='no' IconComponent={ExpandMoreRounded}>
           {/* Mostrar un elemento de menú deshabilitado cuando esté sin conexión, indicando que no se puede cambiar el estilo */}
           {!isOnline && (
             <MenuItem
@@ -52,7 +52,7 @@ export const SettingsEmoji = ({
           )}
 
           {emojiStyles.map((style) => (
-            <StyledMenuItem
+            <SettingsStyledMenuItem
               key={style.style}
               value={style.style}
               translate='no'
@@ -68,13 +68,13 @@ export const SettingsEmoji = ({
               {/* Espacio para Emoji Nativo */}
               {style.style === EmojiStyle.NATIVE && '\u00A0'}
               {style.label}
-            </StyledMenuItem>
+            </SettingsStyledMenuItem>
           ))}
-        </StyledSelect>
+        </SettingsStyledSelect>
 
         <Tooltip title='El selector de emojis solo mostrará emojis usados frecuentemente'>
           <FormGroup>
-            <StyledFormLabel
+            <SettingsStyledFormLabel
               sx={{ opacity: userSettings.simpleEmojiPicker ? 1 : 0.8 }}
               control={<Switch checked={userSettings.simpleEmojiPicker} onChange={onSettingsChange('simpleEmojiPicker')} />}
               label='Selector de Emojis Simple'
