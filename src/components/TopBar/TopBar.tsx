@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { ArrowIcon, BackBtn, ContainerBar, Title } from './TopBar.styled'
+import { TopBarArrowIcon, TopBarBackBtn, TopBarContainer, TopBarTitle } from './TopBar.styled'
 
 interface TopBarProps {
   title: string
@@ -12,11 +12,11 @@ interface TopBarProps {
 export const TopBar = ({ title }: TopBarProps) => {
   const n = useNavigate()
   return (
-    <ContainerBar>
-      <BackBtn size='large' aria-label='Back' onClick={() => n('/')}>
-        <ArrowIcon />
-      </BackBtn>
-      <Title>{title}</Title>
-    </ContainerBar>
+    <TopBarContainer>
+      <TopBarBackBtn size='large' aria-label='Back' onClick={() => n('/')}>
+        <TopBarArrowIcon />
+      </TopBarBackBtn>
+      <TopBarTitle>{title}</TopBarTitle>
+    </TopBarContainer>
   )
 }

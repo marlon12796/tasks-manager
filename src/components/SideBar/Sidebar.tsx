@@ -14,7 +14,6 @@ import type React from 'react'
 import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import logo from '../../assets/logo256.png'
 import { defaultUser } from '../../constants/defaultUser'
 import { UserContext } from '../../contexts/UserContext'
 import { DialogBtn, UserAvatar } from '../../styles'

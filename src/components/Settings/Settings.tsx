@@ -27,7 +27,7 @@ import { DialogBtn } from '../../styles'
 import { ColorPalette } from '../../theme/themeConfig'
 import type { AppSettings, DarkModeOptions } from '../../types/user'
 import { getFontColor } from '../../utils'
-import { ContainerSettings, StyledFormLabel, StyledMenuItem, StyledSelect } from './Settings.styled'
+import { ContainerSettings, SettingsStyledFormLabel, SettingsStyledMenuItem, SettingsStyledSelect } from './Settings.styled'
 import { SettingsVoice } from './SettingsVoice'
 import { SettingsEmoji } from './SettingsEmoji'
 
@@ -247,15 +247,15 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
         <FormGroup>
           <FormControl>
             <FormLabel>Modo Oscuro</FormLabel>
-            <StyledSelect value={darkmode} onChange={handleDarkModeChange} IconComponent={ExpandMoreRounded}>
+            <SettingsStyledSelect value={darkmode} onChange={handleDarkModeChange} IconComponent={ExpandMoreRounded}>
               {darkModeOptions.map((option) => (
-                <StyledMenuItem key={option.mode} value={option.mode}>
+                <SettingsStyledMenuItem key={option.mode} value={option.mode}>
                   {option.icon} {option.label}
                   {option.mode === 'system' && ` (${systemTheme})`}
                   {option.mode === 'auto' && ` (${getFontColor(theme.secondary) === ColorPalette.fontDark ? 'claro' : 'oscuro'})`}
-                </StyledMenuItem>
+                </SettingsStyledMenuItem>
               ))}
-            </StyledSelect>
+            </SettingsStyledSelect>
           </FormControl>
         </FormGroup>
 
@@ -270,7 +270,7 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
 
         <FormGroup>
           <FormLabel>Configuraciones de la Aplicación</FormLabel>
-          <StyledFormLabel
+          <SettingsStyledFormLabel
             sx={{ opacity: userSettings.enableCategories ? 1 : 0.8 }}
             control={<Switch checked={userSettings.enableCategories} onChange={handleSettingChange('enableCategories')} />}
             label='Habilitar Categorías'
@@ -278,7 +278,7 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
         </FormGroup>
 
         <FormGroup>
-          <StyledFormLabel
+          <SettingsStyledFormLabel
             sx={{ opacity: userSettings.enableGlow ? 1 : 0.8 }}
             control={<Switch checked={userSettings.enableGlow} onChange={handleSettingChange('enableGlow')} />}
             label='Habilitar Efecto de Resplandor'
@@ -286,7 +286,7 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
         </FormGroup>
 
         <FormGroup>
-          <StyledFormLabel
+          <SettingsStyledFormLabel
             sx={{ opacity: userSettings.enableReadAloud ? 1 : 0.8 }}
             control={
               <Switch
@@ -308,7 +308,7 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
             }
           >
             <FormGroup>
-              <StyledFormLabel
+              <SettingsStyledFormLabel
                 sx={{ opacity: userSettings.appBadge ? 1 : 0.8 }}
                 control={
                   <Switch
@@ -324,7 +324,7 @@ export const SettingsDialog: React.FC<SettingsProps> = ({ open, onClose }) => {
         )}
 
         <FormGroup>
-          <StyledFormLabel
+          <SettingsStyledFormLabel
             sx={{ opacity: userSettings.doneToBottom ? 1 : 0.8 }}
             control={<Switch checked={userSettings.doneToBottom} onChange={handleSettingChange('doneToBottom')} />}
             label='Mover Tareas Realizadas al Fondo'

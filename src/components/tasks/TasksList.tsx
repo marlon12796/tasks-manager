@@ -47,7 +47,7 @@ import {
   TaskName,
   TasksContainer,
   TimeLeft
-} from './tasks.styled'
+} from './Tasks.styled'
 import { CategoryBadge } from '../CategoryBadge/CategoryBadge'
 
 /**

@@ -2,7 +2,7 @@ import styled from '@emotion/styled'
 import { ArrowBackIosNewRounded } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
 import { getFontColor } from '../../utils'
-export const ContainerBar = styled.div`
+export const TopBarContainer = styled.div`
   margin: 0;
   width: 100%;
   position: sticky;
@@ -15,18 +15,18 @@ export const ContainerBar = styled.div`
   margin-bottom: 48px;
 `
 
-export const ArrowIcon = styled(ArrowBackIosNewRounded)`
+export const TopBarArrowIcon = styled(ArrowBackIosNewRounded)`
   color: ${({ theme }) => getFontColor(theme.secondary)};
 `
 
-export const Title = styled.h2`
+export const TopBarTitle = styled.h2`
   font-size: 28px;
   margin: 0 auto;
   text-align: center;
   padding: 4px 0 8px 0;
   text-shadow: 0 0 24px #00000068;
 `
-export const BackBtn = styled(IconButton)`
+export const TopBarBackBtn = styled(IconButton)`
   position: absolute;
   color: ${({ theme }) => getFontColor(theme.secondary)};
   @media (max-width: 1024px) {

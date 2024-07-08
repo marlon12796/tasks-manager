@@ -16,7 +16,7 @@ import {
   TaskInfo,
   TaskName,
   TimeLeft
-} from '../components/tasks/tasks.styled'
+} from '../components/tasks/Tasks.styled'
 import { URL_REGEX, USER_NAME_MAX_LENGTH } from '../constants'
 import { UserContext } from '../contexts/UserContext'
 import { DialogBtn } from '../styles'

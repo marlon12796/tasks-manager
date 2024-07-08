@@ -10,12 +10,12 @@ export const ContainerSettings = styled.div`
   gap: 6px;
 `
 
-export const StyledSelect = styled(Select)`
+export const SettingsStyledSelect = styled(Select)`
   width: 360px;
   margin: 8px 0;
 `
 
-export const StyledMenuItem = styled(MenuItem)`
+export const SettingsStyledMenuItem = styled(MenuItem)`
   padding: 12px 20px;
   border-radius: 12px;
   margin: 0 8px;
@@ -23,11 +23,11 @@ export const StyledMenuItem = styled(MenuItem)`
   gap: 6px;
 `
 
-export const StyledFormLabel = styled(FormControlLabel)`
+export const SettingsStyledFormLabel = styled(FormControlLabel)`
   max-width: 350px;
 `
 
-export const NoVoiceStyles = styled.p`
+export const SettingsNoVoiceStyles = styled.p`
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -37,7 +37,7 @@ export const NoVoiceStyles = styled.p`
   max-width: 330px;
 `
 
-export const VolumeSlider = styled(Stack)`
+export const SettingsVolumeSlider = styled(Stack)`
   margin: 8px 0;
   background: #afafaf39;
   padding: 12px 24px 12px 18px;
