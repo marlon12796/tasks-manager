@@ -1,5 +1,5 @@
 import { useTheme } from '@emotion/react'
-import { DeleteRounded, SaveRounded } from '@mui/icons-material'
+import { DeleteRounded } from '@mui/icons-material'
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { lazy, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -7,11 +7,12 @@ import { ColorPicker, CustomEmojiPicker, TopBar } from '../components'
 import { CATEGORY_NAME_MAX_LENGTH } from '../constants'
 import { UserContext } from '../contexts/UserContext'
 import { useStorageState } from '../hooks/useStorageState'
-import { AddCategoryButton, AddContainer, CategoriesContainer, CategoryInput, DialogBtn, EditNameInput } from '../styles'
+import { AddCategoryButton, AddContainer, CategoriesContainer, CategoryInput, DialogBtn } from '../styles'
 import { ColorPalette } from '../theme/themeConfig'
 import type { Category, UUID } from '../types/user'
 import { getFontColor, showToast } from '../utils'
 import { CategoryElements } from './Categories/CategoryElements'
+import { AlertEdition } from './Categories/AlertEdition'
 
 const NotFound = lazy(() => import('./NotFound'))
 const Categories = () => {
@@ -82,8 +83,7 @@ const Categories = () => {
       : setNameError('')
   }
 
-  const handleEditNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newName = e.target.value
+  const handleEditNameChange = (newName: string) => {
     setEditName(newName)
     newName.length > CATEGORY_NAME_MAX_LENGTH
       ? setEditNameError(`El nombre es demasiado largo (máximo ${CATEGORY_NAME_MAX_LENGTH} caracteres)`)
@@ -119,11 +119,13 @@ const Categories = () => {
       showToast('El nombre de la categoría es requerido.', { type: 'error' })
     }
   }
-
+  const handleChangeEditColor = (color: string) => {
+    setEditColor(color)
+  }
   const handleEditDimiss = () => {
     setSelectedCategoryId(undefined)
     setOpenEditDialog(false)
-    setEditColor(theme.primary)
+    handleChangeEditColor(theme.primary)
     setEditName('')
     setEditEmoji(null)
   }
@@ -254,69 +256,18 @@ const Categories = () => {
             </DialogBtn>
           </DialogActions>
         </Dialog>
-        {/* Diálogo de Edición */}
-        <Dialog
-          open={openEditDialog}
-          onClose={handleEditDimiss}
-          PaperProps={{
-            style: {
-              borderRadius: '24px',
-              padding: '12px',
-              maxWidth: '600px'
-            }
-          }}
-        >
-          <DialogTitle>
-            Editar Categoría
-            {/* <b>{user.categories.find((cat) => cat.id === selectedCategoryId)?.name}</b> */}
-          </DialogTitle>
-
-          <DialogContent>
-            <CustomEmojiPicker
-              emoji={user.categories.find((cat) => cat.id === selectedCategoryId)?.emoji || undefined}
-              setEmoji={setEditEmoji}
-              width={300}
-              color={editColor}
-            />
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'column'
-              }}
-            >
-              <EditNameInput
-                label='Ingrese el nombre de la categoría'
-                placeholder='Ingrese el nombre de la categoría'
-                value={editName}
-                error={editNameError !== '' || editName.length === 0}
-                onChange={handleEditNameChange}
-                helperText={
-                  editNameError
-                    ? editNameError
-                    : editName.length === 0
-                      ? 'El nombre de la categoría es requerido'
-                      : `${editName.length}/${CATEGORY_NAME_MAX_LENGTH}`
-                }
-              />
-              <ColorPicker
-                color={editColor}
-                width='300px'
-                fontColor={theme.darkmode ? ColorPalette.fontLight : ColorPalette.fontDark}
-                onColorChange={(clr) => {
-                  setEditColor(clr)
-                }}
-              />
-            </div>
-          </DialogContent>
-          <DialogActions>
-            <DialogBtn onClick={handleEditDimiss}>Cancelar</DialogBtn>
-            <DialogBtn onClick={handleEditCategory} disabled={editNameError !== '' || editName.length === 0}>
-              <SaveRounded /> &nbsp; Guardar
-            </DialogBtn>
-          </DialogActions>
-        </Dialog>
+        <AlertEdition
+          editColor={editColor}
+          editName={editName}
+          editNameError={editNameError}
+          onChangeEditColor={handleChangeEditColor}
+          onEditCategory={handleEditCategory}
+          onEditDimiss={handleEditDimiss}
+          onEditNameChange={handleEditNameChange}
+          openEditDialog={openEditDialog}
+          selectedCategoryId={selectedCategoryId}
+          setEditEmoji={setEditEmoji}
+        />
       </CategoriesContainer>
     </>
   )

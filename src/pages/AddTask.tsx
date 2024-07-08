@@ -31,36 +31,29 @@ const AddTask = () => {
   }, [])
 
   useEffect(() => {
-    if (name.length > TASK_NAME_MAX_LENGTH) {
-      setNameError(`El nombre debe tener menos de ${TASK_NAME_MAX_LENGTH} caracteres`)
-    } else {
-      setNameError('')
-    }
-    if (description.length > DESCRIPTION_MAX_LENGTH) {
-      setDescriptionError(`La descripción debe tener menos de ${DESCRIPTION_MAX_LENGTH} caracteres`)
-    } else {
-      setDescriptionError('')
-    }
+    name.length > TASK_NAME_MAX_LENGTH
+      ? setNameError(`El nombre debe tener menos de ${TASK_NAME_MAX_LENGTH} caracteres`)
+      : setNameError('')
+
+    description.length > DESCRIPTION_MAX_LENGTH
+      ? setDescriptionError(`La descripción debe tener menos de ${DESCRIPTION_MAX_LENGTH} caracteres`)
+      : setDescriptionError('')
   }, [description.length, name.length])
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newName = event.target.value
     setName(newName)
-    if (newName.length > TASK_NAME_MAX_LENGTH) {
-      setNameError(`El nombre debe tener menos de ${TASK_NAME_MAX_LENGTH} caracteres`)
-    } else {
-      setNameError('')
-    }
+    newName.length > TASK_NAME_MAX_LENGTH
+      ? setNameError(`El nombre debe tener menos de ${TASK_NAME_MAX_LENGTH} caracteres`)
+      : setNameError('')
   }
 
   const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newDescription = event.target.value
     setDescription(newDescription)
-    if (newDescription.length > DESCRIPTION_MAX_LENGTH) {
-      setDescriptionError(`La descripción debe tener menos de ${DESCRIPTION_MAX_LENGTH} caracteres`)
-    } else {
-      setDescriptionError('')
-    }
+    newDescription.length > DESCRIPTION_MAX_LENGTH
+      ? setDescriptionError(`La descripción debe tener menos de ${DESCRIPTION_MAX_LENGTH} caracteres`)
+      : setDescriptionError('')
   }
 
   const handleDeadlineChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,10 +65,7 @@ const AddTask = () => {
       showToast('El nombre de la tarea es obligatorio.', { type: 'error' })
       return
     }
-
-    if (nameError !== '' || descriptionError !== '') {
-      return // No agregar la tarea si el nombre o la descripción exceden la longitud máxima
-    }
+    if (nameError !== '' || descriptionError !== '') return
 
     const newTask: Task = {
       id: crypto.randomUUID(),
