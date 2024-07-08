@@ -65,6 +65,10 @@ const AddTask = () => {
       showToast('El nombre de la tarea es obligatorio.', { type: 'error' })
       return
     }
+    if (selectedCategories.length <= 0) {
+      showToast('El nombre de la categoria es obligatorio.', { type: 'error' })
+      return
+    }
     if (nameError !== '' || descriptionError !== '') return
 
     const newTask: Task = {

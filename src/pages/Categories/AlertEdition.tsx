@@ -54,8 +54,7 @@ export const AlertEdition = ({
       }}
     >
       <DialogTitle>
-        Editar Categoría
-        {/* <b>{user.categories.find((cat) => cat.id === selectedCategoryId)?.name}</b> */}
+        <span> Editar Categoría</span> <b>{user.categories.find((cat) => cat.id === selectedCategoryId)?.name}</b>
       </DialogTitle>
 
       <DialogContent>

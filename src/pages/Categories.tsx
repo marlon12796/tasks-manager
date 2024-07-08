@@ -1,6 +1,6 @@
 import { useTheme } from '@emotion/react'
 import { DeleteRounded } from '@mui/icons-material'
-import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
+import { Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material'
 import { lazy, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ColorPicker, CustomEmojiPicker, TopBar } from '../components'
@@ -213,7 +213,7 @@ const Categories = () => {
             error={nameError !== ''}
             helperText={name == '' ? undefined : !nameError ? `${name.length}/${CATEGORY_NAME_MAX_LENGTH}` : nameError}
           />
-          {/* <Typography>Color</Typography> */}
+          <Typography>Color</Typography>
           <ColorPicker
             color={color}
             onColorChange={(color) => {

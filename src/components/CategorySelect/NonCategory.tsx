@@ -13,7 +13,7 @@ export const NonCategory = ({ n }: { n: NavigateFunction }) => {
           n('/categories')
         }}
       >
-        Add Category
+        Añadir Category
       </Button>
     </NoCategories>
   )

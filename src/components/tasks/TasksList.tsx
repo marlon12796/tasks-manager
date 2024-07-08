@@ -164,7 +164,7 @@ export const TasksList: React.FC = () => {
       setDeleteDialogOpen(false)
       showToast(
         <div>
-          Deleted Task - <b translate='no'>{user.tasks.find((task) => task.id === selectedTaskId)?.name}</b>
+          Eliminar Tarea - <b translate='no'>{user.tasks.find((task) => task.id === selectedTaskId)?.name}</b>
         </div>
       )
     }
@@ -339,7 +339,7 @@ export const TasksList: React.FC = () => {
           <SelectedTasksContainer>
             <div>
               <h3>
-                <RadioButtonChecked /> &nbsp; Selected {multipleSelectedTasks.length} task
+                <RadioButtonChecked /> &nbsp; Seleccionado {multipleSelectedTasks.length} tarea
                 {multipleSelectedTasks.length > 1 ? 's' : ''}
               </h3>
               <span translate='no' style={{ fontSize: '14px', opacity: 0.8 }}>
@@ -380,7 +380,7 @@ export const TasksList: React.FC = () => {
             }}
           >
             <b>
-              Found {reorderTasks(user.tasks).length} tarea
+              Se Encontró {reorderTasks(user.tasks).length} tarea
               {reorderTasks(user.tasks).length > 1 ? 's' : ''}
             </b>
           </div>
@@ -547,7 +547,7 @@ export const TasksList: React.FC = () => {
               marginTop: '18px'
             }}
           >
-            <b>No tasks found</b>
+            <b>No se encontró tareas</b>
             <br />
             Inténtalo buscando con palabras clave diferentes.
             <div style={{ marginTop: '14px' }}>

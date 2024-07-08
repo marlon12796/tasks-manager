@@ -6,7 +6,6 @@ import { ColorPalette } from '../../theme/themeConfig'
 import { getFontColor } from '../../utils'
 
 export const ContainerUser = styled.div`
-  margin: 0 auto;
   max-width: 400px;
   padding: 64px 48px;
   border-radius: 48px;
@@ -21,10 +20,8 @@ export const ContainerUser = styled.div`
   flex-direction: column;
   align-items: center;
   flex-direction: column;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
+  margin-inline:auto;
 `
 
 export const CheckIcon = styled(CheckRounded)`

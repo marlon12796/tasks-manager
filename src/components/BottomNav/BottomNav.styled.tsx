@@ -27,8 +27,8 @@ export const AddIcon = styled(AddRounded)<AddIconProps>`
 export const Container = styled(Box)`
   position: fixed;
   bottom: 0;
+  inset-inline:0;
   width: 100%;
-  margin: 0;
   animation: ${slideInBottom} 0.5s ease;
   z-index: 999;
 `
@@ -37,8 +37,7 @@ export const StyledBottomNavigation = styled(BottomNavigation)<{ glow: string }>
   border-radius: 24px 24px 0 0;
   background: ${({ theme, glow }) => `${theme.palette.secondary.main}${glow === 'true' ? 'c8' : 'e6'}`};
   backdrop-filter: blur(20px);
-  margin: 0px 20px 0px -20px;
-  padding: 18px 10px 32px 10px;
+  padding-block:1em;
   transition: 0.3s background, color;
 `
 
