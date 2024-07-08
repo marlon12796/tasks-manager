@@ -34,6 +34,13 @@ export const AlertEdition = ({
 }: AlertEditionTypes) => {
   const { user } = useContext(UserContext)
   const theme = useTheme()
+  const renderHelperText = () => {
+    if (editNameError) return editNameError
+
+    if (editName.length === 0) return 'El nombre de la categoría es requerido'
+
+    return `${editName.length}/${CATEGORY_NAME_MAX_LENGTH}`
+  }
   return (
     <Dialog
       open={openEditDialog}
@@ -72,13 +79,7 @@ export const AlertEdition = ({
             value={editName}
             error={editNameError !== '' || editName.length === 0}
             onChange={(e) => onEditNameChange(e.target.value)}
-            helperText={
-              editNameError
-                ? editNameError
-                : editName.length === 0
-                  ? 'El nombre de la categoría es requerido'
-                  : `${editName.length}/${CATEGORY_NAME_MAX_LENGTH}`
-            }
+            helperText={renderHelperText()}
           />
           <ColorPicker
             color={editColor}
