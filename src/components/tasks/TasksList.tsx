@@ -47,7 +47,7 @@ import {
   TaskName,
   TasksContainer,
   TimeLeft
-} from './Tasks.styled'
+} from './tasks.styled'
 import { CategoryBadge } from '../CategoryBadge/CategoryBadge'
 
 /**
@@ -390,7 +390,6 @@ export const TasksList: React.FC = () => {
             <TaskContainer
               key={task.id}
               id={task.id.toString()}
-              // open the task menu on right click
               onContextMenu={(e) => {
                 e.preventDefault()
                 handleClick(e, task.id)

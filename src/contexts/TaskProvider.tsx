@@ -1,5 +1,5 @@
 import { type ReactNode, useState } from 'react'
-import { HighlightedText } from '../components/tasks/Tasks.styled'
+import { HighlightedText } from '../components/tasks/tasks.styled'
 import { useResponsiveDisplay } from '../hooks/useResponsiveDisplay'
 import { useStorageState } from '../hooks/useStorageState'
 import type { UUID } from '../types/user'

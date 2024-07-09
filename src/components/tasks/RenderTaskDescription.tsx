@@ -5,8 +5,7 @@ import { DESCRIPTION_SHORT_LENGTH, URL_REGEX } from '../../constants'
 import { TaskContext } from '../../contexts/TaskContext'
 import { useResponsiveDisplay } from '../../hooks/useResponsiveDisplay'
 import type { Task } from '../../types/user'
-import { DescriptionLink, ShowMoreBtn, YouTubeThumbnail } from './Tasks.styled'
-
+import { DescriptionLink, ShowMoreBtn, YouTubeThumbnail } from './tasks.styled'
 interface RenderTaskDescriptionProps {
   task: Task
 }
