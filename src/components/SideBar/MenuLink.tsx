@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 
 export const MenuLink = ({ to, children }: { to: string; children: React.ReactNode }) => {
   const styles: React.CSSProperties = { borderRadius: '14px' }
