@@ -6,7 +6,6 @@ import { fadeIn, fadeInLeft, progressPulse, pulseAnimation } from './keyframes.s
 
 export const GreetingHeader = styled.div`
   display: flex;
-  margin-top: 12px;
   font-size: 26px;
   font-weight: bold;
   margin-top: 16px;
@@ -25,6 +24,7 @@ export const GreetingText = styled.div`
   margin-top: 4px;
   margin-left: 8px;
   font-style: italic;
+  padding:0;
   animation: ${fadeInLeft} 0.5s ease-in-out;
 `
 
@@ -81,7 +81,7 @@ export const ProgressPercentageContainer = styled(Box)<{ glow: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background: #090b2287; */
+  margin:0;
   background: ${({ theme }) => (getFontColor(theme.secondary) === ColorPalette.fontLight ? '#090b2287' : '#ffffff5c')};
 
   border-radius: 100px;

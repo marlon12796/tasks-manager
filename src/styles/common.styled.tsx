@@ -47,6 +47,8 @@ export const StyledLink = styled.a<{ clr?: string }>`
 // linear-gradient(#A4AAB7, #868B95)
 export const UserAvatar = styled(Avatar)<{ hasImage: boolean; size: CSSProperties['height'] }>`
   color: #ffffff;
+  position:fixed;
+  margin-block:0.75em;
   background: ${({ hasImage, theme }) => (hasImage ? '#ffffff1c' : theme.darkmode ? '#5e5e65' : '#8c919c')} !important;
   transition: 0.3s background;
   font-weight: 500;

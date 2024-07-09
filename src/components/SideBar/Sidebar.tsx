@@ -76,6 +76,7 @@ export const ProfileSidebar = () => {
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
           sx={{ zIndex: 1 }}
+          style={{ width: '3rem', aspectRatio: '1/1' }}
         >
           <UserAvatar
             src={(profilePicture as string) || undefined}
@@ -92,6 +93,7 @@ export const ProfileSidebar = () => {
               showToast('Error en la URL de la imagen de perfil', { type: 'error' })
               throw new Error('Error en la URL de la imagen de perfil')
             }}
+            style={{ margin: '0', top: '0', marginBlockStart: '0.5em' }}
           >
             {name ? name[0].toUpperCase() : undefined}
           </UserAvatar>

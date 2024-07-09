@@ -3,19 +3,22 @@ import { ArrowBackIosNewRounded } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
 import { getFontColor } from '../../utils'
 export const TopBarContainer = styled.div`
-  margin: 0;
   width: 100%;
   position: sticky;
   top: 0;
   z-index: 99;
+  display:grid;
+  align-items:center;
+  padding-block:0.5em;  
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   background: ${({ theme }) => `${theme.secondary}c1`};
   transition: background 0.3s, color 0.3s;
-  margin-bottom: 48px;
+  margin: 0;
 `
 
 export const TopBarArrowIcon = styled(ArrowBackIosNewRounded)`
+padding:0.2em;
   color: ${({ theme }) => getFontColor(theme.secondary)};
 `
 
@@ -29,7 +32,6 @@ export const TopBarTitle = styled.h2`
 export const TopBarBackBtn = styled(IconButton)`
   position: absolute;
   color: ${({ theme }) => getFontColor(theme.secondary)};
-  @media (max-width: 1024px) {
-    margin-top: 4px;
-  }
+  padding:0;
+  margin:0;
 `

@@ -12,7 +12,7 @@ interface TopBarProps {
 export const TopBar = ({ title }: TopBarProps) => {
   const n = useNavigate()
   return (
-    <TopBarContainer>
+    <TopBarContainer className=''>
       <TopBarBackBtn size='large' aria-label='Back' onClick={() => n('/')}>
         <TopBarArrowIcon />
       </TopBarBackBtn>

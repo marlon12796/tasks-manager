@@ -97,10 +97,8 @@ const Home = () => {
   }
 
   const renderGreetingWithEmojis = (text: string | ReactNode) => {
-    if (typeof text === 'string') {
-      return replaceEmojiCodes(text)
-    }
-    // It's already a ReactNode, no need to process
+    if (typeof text === 'string') return replaceEmojiCodes(text)
+
     return text
   }
 

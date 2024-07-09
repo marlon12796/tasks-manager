@@ -15,7 +15,7 @@ export const GlobalStyles = () => {
             background-color: ${`${theme.primary}e1`};
             color: ${getFontColor(theme.primary)};
             text-shadow: 0 0 12px ${`${getFontColor(theme.primary)}b9`};
-          }
+          };
         }
         :root {
           font-family: "Poppins", sans-serif;
@@ -74,7 +74,7 @@ export const GlobalStyles = () => {
             ${theme.darkmode ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.12) '}; */
         }
         body {
-          margin: 8px 16vw;
+          margin: 0 16vw;
           touch-action: manipulation;
           //FIXME:
           background: ${theme.secondary};
@@ -82,7 +82,7 @@ export const GlobalStyles = () => {
           background-size: cover;
           transition: 0.3s background;
           @media (max-width: 1024px) {
-            margin: 20px;
+            margin-inline: 20px;
           }
 
           /* Custom Scrollbar Styles */
