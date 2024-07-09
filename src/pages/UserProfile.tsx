@@ -126,6 +126,7 @@ const UserProfile = () => {
               src={profilePicture || undefined}
               hasImage={profilePicture !== null}
               size='96px'
+              style={{ position: 'relative', margin: '0' }}
             >
               {name ? name[0].toUpperCase() : undefined}
             </UserAvatar>
