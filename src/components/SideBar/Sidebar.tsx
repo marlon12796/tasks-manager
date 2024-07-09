@@ -205,7 +205,7 @@ export const ProfileSidebar = () => {
               <UserAvatar src={(profilePicture as string) || undefined} hasImage={profilePicture !== null} size='44px'>
                 {name ? name[0].toUpperCase() : undefined}
               </UserAvatar>
-              <h4 style={{ margin: 0, fontWeight: 600 }}> {name || 'Usuario'}</h4>{' '}
+              <h4 style={{ margin: 0, marginInlineStart: 'auto', fontWeight: 600 }}> {name || 'Usuario'}</h4>{' '}
               {(name === null || name === '') && profilePicture === null && user.theme !== defaultUser.theme && (
                 <PulseMenuLabel />
               )}
