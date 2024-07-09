@@ -8,13 +8,12 @@ import { defaultUser } from './constants/defaultUser'
 import { UserContext } from './contexts/UserContext'
 import { useSystemTheme } from './hooks/useSystemTheme'
 import MainLayout from './layouts/MainLayout'
-import AppRouter from './router'
 import { GlobalStyles } from './styles'
 import { Themes, createCustomTheme } from './theme/theme'
 import { ColorPalette } from './theme/themeConfig'
 import { getFontColor, showToast } from './utils'
 import { ErrorBoundary } from './components'
-
+import AppRouter from './router'
 function App() {
   const { user, setUser } = useContext(UserContext)
   const systemTheme = useSystemTheme()

@@ -16,7 +16,7 @@ const AppRouter = () => {
   return (
     <Suspense fallback={<Loading />}>
       <Routes>
-        <Route path='/' element={<Home />} />
+        <Route path='' element={<Home />} />
         <Route path='/task/:id' element={<TaskDetails />} />
         <Route path='/share' element={<SharePage />} />
         <Route path='/add' element={<AddTask />} />
