@@ -29,8 +29,9 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Enable Corepack for pnpm
-        run: corepack enable pnpm
+      - run: corepack enable pnpm
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
