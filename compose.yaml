@@ -1,0 +1,15 @@
+
+services:
+  web:
+    container_name: tasks-manager
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - ${PORT}:${PORT}
+    networks:
+      - fronted-app
+networks:
+  fronted-app:
